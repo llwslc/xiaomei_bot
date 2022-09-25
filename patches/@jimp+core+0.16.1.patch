@@ -1,0 +1,13 @@
+diff --git a/node_modules/@jimp/core/dist/modules/phash.js b/node_modules/@jimp/core/dist/modules/phash.js
+index dac128a..bb8e45f 100644
+--- a/node_modules/@jimp/core/dist/modules/phash.js
++++ b/node_modules/@jimp/core/dist/modules/phash.js
+@@ -63,7 +63,7 @@ ImagePHash.prototype.getHash = function (img) {
+    * the number of computations.
+    */
+ 
+-  img.grayscale();
++  // img.grayscale();
+   var vals = [];
+ 
+   for (var x = 0; x < img.bitmap.width; x++) {
