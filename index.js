@@ -436,8 +436,16 @@ const initItems = async () => {
   if (!noswipItems.length) {
     // noswipItems = [await genItem('empty'), await genItem('libao1'), await genItem('baoxiang'), await genItem('jiandao')];
     noswipItems = [await genItem('empty')];
-    // noswipItems = [await genItem('kele5')];
+    noswipItems = [await genItem('kele6')];
     sellItems = [await genItem('jiasu1'), await genItem('jiasu2'), await genItem('jiasu3'), await genItem('jialiang1'), await genItem('jialiang2')];
+    sellItems = [
+      await genItem('jiasu1'),
+      await genItem('jiasu2'),
+      await genItem('jiasu3'),
+      await genItem('jialiang1'),
+      await genItem('jialiang2'),
+      await genItem('kele1')
+    ];
     doubleClickItems = [await genItem('jinbi1'), await genItem('jinbi2'), await genItem('tili1'), await genItem('tili2')];
   }
 };
@@ -560,16 +568,16 @@ const debugCheck = async () => {
   const width = 140;
   const height = 140;
 
-  const distImg = await sharp('./tools/jiasu3.png').raw().toBuffer();
+  const distImg = await sharp('./tools/empty.png').raw().toBuffer();
 
-  const imgs = [await sharp('./tools/46.png').raw().toBuffer(), await sharp('./tools/28.png').raw().toBuffer(), await sharp('./tools/67.png').raw().toBuffer()];
+  const imgs = [await sharp('./tools/guozhi1.png').raw().toBuffer(), await sharp('./tools/guozhi2.png').raw().toBuffer()];
 
   for (let i = 0; i < imgs.length; i++) {
     const same = await sameAsync({ width, height, data: imgs[i] }, { width, height, data: distImg }, true);
     console.log(same);
   }
 
-  const jImg1 = await Jimp.read('./tools/16.png');
+  const jImg1 = await Jimp.read('./tools/guozhi1.png');
   const jImg2 = await Jimp.read('./tools/empty.png');
   const dist = Jimp.distance(jImg1, jImg2);
   const diff = Jimp.diff(jImg1, jImg2);
@@ -666,7 +674,7 @@ const main = async () => {
   }
 
   const factoryX = 1;
-  const factoryY = 4;
+  const factoryY = 5;
   let refresh = false;
 
   await initItems();
@@ -747,10 +755,12 @@ switch (action) {
   case 'all':
     getAllTools();
     break;
+  case 'debug':
+    debugCheck();
+    break;
   default:
     main();
     break;
 }
 
-// debugCheck();
 // debugCompare();
