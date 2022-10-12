@@ -436,17 +436,18 @@ const initItems = async () => {
   if (!noswipItems.length) {
     // noswipItems = [await genItem('empty'), await genItem('libao1'), await genItem('baoxiang'), await genItem('jiandao')];
     noswipItems = [await genItem('empty')];
-    noswipItems = [await genItem('kele6')];
     sellItems = [await genItem('jiasu1'), await genItem('jiasu2'), await genItem('jiasu3'), await genItem('jialiang1'), await genItem('jialiang2')];
-    sellItems = [
-      await genItem('jiasu1'),
-      await genItem('jiasu2'),
-      await genItem('jiasu3'),
-      await genItem('jialiang1'),
-      await genItem('jialiang2'),
-      await genItem('kele1')
-    ];
     doubleClickItems = [await genItem('jinbi1'), await genItem('jinbi2'), await genItem('tili1'), await genItem('tili2')];
+
+    const action = process.argv[2] ? process.argv[2] : '';
+    if (action === 'kele') {
+      noswipItems = [await genItem('kele7')];
+      sellItems.push(await genItem('kele1'));
+    }
+    if (action === 'che') {
+      noswipItems.push(await genItem('che6'));
+      // sellItems.push(await genItem('che1'));
+    }
   }
 };
 
@@ -744,6 +745,8 @@ const main = async () => {
 const action = process.argv[2] ? process.argv[2] : '';
 switch (action) {
   case '':
+  case 'kele':
+  case 'che':
     main();
     break;
   case 'cap':
