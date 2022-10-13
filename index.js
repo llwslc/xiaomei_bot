@@ -1,10 +1,25 @@
 const { exec } = require('child_process');
+const { unlinkSync } = require('fs');
 const sharp = require('sharp');
 const Jimp = require('jimp');
 const log4js = require('log4js');
 
+const ERROR_LOG = 'ERROR.log';
+try {
+  unlinkSync(ERROR_LOG);
+} catch {}
+log4js.configure({
+  appenders: { XIAOMEI: { type: 'stdout' }, ERROR: { type: 'file', filename: ERROR_LOG } },
+  categories: { default: { appenders: ['XIAOMEI'], level: 'info' }, ERROR: { appenders: ['ERROR'], level: 'error' } }
+});
 const logger = log4js.getLogger('XIAOMEI');
-logger.level = 'info';
+const errlogger = log4js.getLogger('ERROR');
+const _error = logger.error;
+logger.error = function (...args) {
+  _error.call(this, ...args);
+  errlogger.error(...args);
+};
+
 sharp.cache(false);
 
 const adbPath = `./platform-tools/adb`;
@@ -276,7 +291,9 @@ const isGame = async () => {
   const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
   if (same) {
-    logger.info('isGame');
+    logger.info('inTheGame');
+  } else {
+    logger.error('notInGame');
   }
   return same;
 };
