@@ -472,7 +472,7 @@ const compare = async () => {
   logger.info('comparing');
 
   const startIndexX = 1;
-  const startIndexY = 6;
+  const startIndexY = 5;
 
   const width = iconWidth;
   const height = iconHeight;
@@ -692,7 +692,7 @@ const main = async () => {
   }
 
   const factoryX = 1;
-  const factoryY = 5;
+  const factoryY = 4;
   let refresh = false;
 
   await initItems();
