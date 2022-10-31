@@ -472,7 +472,7 @@ const compare = async () => {
   logger.info('comparing');
 
   const startIndexX = 1;
-  const startIndexY = 5;
+  const startIndexY = 6;
 
   const width = iconWidth;
   const height = iconHeight;
@@ -579,7 +579,9 @@ const genTools = async (x, y) => {
   const { x: left, y: top } = getImgPos(x, y);
   const width = iconWidth;
   const height = iconHeight;
-  sharp(imgName).extract({ left, top, width, height }).toFile(`./tools/temp.png`);
+  const name = process.argv[3] ? process.argv[3] : 'temp';
+
+  sharp(imgName).extract({ left, top, width, height }).toFile(`./tools/${name}.png`);
 };
 
 const debugCheck = async () => {
