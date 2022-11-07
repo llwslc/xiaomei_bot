@@ -36,6 +36,12 @@ let sellItems = [];
 let doubleClickItems = [];
 let luckyLevelImg = '';
 
+const COMPARE_X = 1;
+const COMPARE_Y = 6;
+
+const FACTORY_X = 1;
+const FACTORY_Y = 4;
+
 const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
@@ -462,8 +468,11 @@ const initItems = async () => {
       sellItems.push(await genItem('kele1'));
     }
     if (action === 'che') {
-      noswipItems.push(await genItem('che6'));
-      // sellItems.push(await genItem('che1'));
+      // noswipItems.push(await genItem('che7'));
+      sellItems.push(await genItem('che1'));
+    }
+    if (action === 'guanmu') {
+      noswipItems.push(await genItem('guanmu6'));
     }
   }
 };
@@ -471,8 +480,8 @@ const initItems = async () => {
 const compare = async () => {
   logger.info('comparing');
 
-  const startIndexX = 1;
-  const startIndexY = 6;
+  const startIndexX = COMPARE_X;
+  const startIndexY = COMPARE_Y;
 
   const width = iconWidth;
   const height = iconHeight;
@@ -693,8 +702,8 @@ const main = async () => {
     return;
   }
 
-  const factoryX = 1;
-  const factoryY = 4;
+  const factoryX = FACTORY_X;
+  const factoryY = FACTORY_Y;
   let refresh = false;
 
   await initItems();
@@ -766,6 +775,7 @@ switch (action) {
   case '':
   case 'kele':
   case 'che':
+  case 'guanmu':
     main();
     break;
   case 'cap':
