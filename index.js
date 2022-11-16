@@ -468,11 +468,14 @@ const initItems = async () => {
       sellItems.push(await genItem('kele1'));
     }
     if (action === 'che') {
-      // noswipItems.push(await genItem('che7'));
-      sellItems.push(await genItem('che1'));
+      noswipItems.push(await genItem('che6'));
+      // sellItems.push(await genItem('che1'));
     }
     if (action === 'guanmu') {
       noswipItems.push(await genItem('guanmu6'));
+    }
+    if (action === 'tiancai') {
+      noswipItems.push(await genItem('tiancai5'));
     }
   }
 };
@@ -776,6 +779,7 @@ switch (action) {
   case 'kele':
   case 'che':
   case 'guanmu':
+  case 'tiancai':
     main();
     break;
   case 'cap':
