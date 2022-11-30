@@ -464,8 +464,8 @@ const initItems = async () => {
 
     const action = process.argv[2] ? process.argv[2] : '';
     if (action === 'kele') {
-      noswipItems = [await genItem('kele7')];
-      sellItems.push(await genItem('kele1'));
+      noswipItems = [await genItem('kele6')];
+      // sellItems.push(await genItem('kele1'));
     }
     if (action === 'che') {
       noswipItems.push(await genItem('che6'));
@@ -476,6 +476,12 @@ const initItems = async () => {
     }
     if (action === 'tiancai') {
       noswipItems.push(await genItem('tiancai5'));
+    }
+    if (action === 'luhui') {
+      noswipItems.push(await genItem('luhui5'), await genItem('luhui6'), await genItem('luhui7'));
+    }
+    if (action === 'caomei') {
+      noswipItems.push(await genItem('caomei5'), await genItem('caomei6'), await genItem('caomei7'));
     }
   }
 };
@@ -780,6 +786,9 @@ switch (action) {
   case 'che':
   case 'guanmu':
   case 'tiancai':
+  case 'luhui':
+  case 'caomei':
+    logger.info(`aciotn ${action}`);
     main();
     break;
   case 'cap':
