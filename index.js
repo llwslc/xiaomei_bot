@@ -51,8 +51,6 @@ const execAsync = (method, shell, show = false) => {
     exec(shell, (err, stdout) => {
       if (err) {
         logger.error(method, err);
-        reject();
-        return;
       }
       logger.info(method, show ? stdout : '');
       resolve(stdout);
