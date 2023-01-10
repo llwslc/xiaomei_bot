@@ -35,6 +35,8 @@ let noswipItems = [];
 let sellItems = [];
 let doubleClickItems = [];
 let luckyLevelImg = '';
+let demonX = 1;
+let demonY = 2;
 
 const COMPARE_X = 1;
 const COMPARE_Y = 6;
@@ -390,20 +392,25 @@ const sellAction = async (xi, yi) => {
   await capture();
   await sleep(1000);
 
-  const distImg = './imgSell1.png';
+  const sell = async distImg => {
+    const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
 
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
-  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+    if (same) {
+      logger.info('sell');
+      await click(clickX, clickY);
+      await sleep(1000);
 
-  if (same) {
-    logger.info('sell');
-    await click(clickX, clickY);
-    await sleep(1000);
+      await sellConfirmAction();
+      return true;
+    }
+  };
 
-    await sellConfirmAction();
-  }
+  if (await sell('./imgSell1.png')) return;
+  if (await sell('./imgSell2.png')) return;
+  if (await sell('./imgSell4.png')) return;
 };
 
 const sellConfirmAction = async () => {
@@ -418,7 +425,7 @@ const sellConfirmAction = async () => {
   await capture();
   await sleep(1000);
 
-  const distImg = './imgSell2.png';
+  const distImg = './imgSellEnd.png';
 
   const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
   const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
@@ -458,11 +465,20 @@ const initItems = async () => {
     // noswipItems = [await genItem('empty'), await genItem('libao1'), await genItem('baoxiang'), await genItem('jiandao')];
     noswipItems = [await genItem('empty')];
     sellItems = [await genItem('jiasu1'), await genItem('jiasu2'), await genItem('jiasu3'), await genItem('jialiang1'), await genItem('jialiang2')];
-    doubleClickItems = [await genItem('jinbi1'), await genItem('jinbi2'), await genItem('tili1'), await genItem('tili2')];
+    doubleClickItems = [
+      await genItem('jinbi2'),
+      await genItem('jinbi3'),
+      await genItem('tili1'),
+      await genItem('tili2'),
+      await genItem('tili3'),
+      await genItem('tili4'),
+      await genItem('tili5'),
+      await genItem('tili6')
+    ];
 
     const action = process.argv[2] ? process.argv[2] : '';
     if (action === 'kele') {
-      noswipItems = [await genItem('kele6')];
+      noswipItems = [await genItem('kele7')];
       // sellItems.push(await genItem('kele1'));
     }
     if (action === 'che') {
@@ -474,12 +490,22 @@ const initItems = async () => {
     }
     if (action === 'tiancai') {
       noswipItems.push(await genItem('tiancai5'));
+      noswipItems.push(await genItem('tiancai6'));
+      noswipItems.push(await genItem('tiancai7'));
     }
     if (action === 'luhui') {
       noswipItems.push(await genItem('luhui5'), await genItem('luhui6'), await genItem('luhui7'));
     }
     if (action === 'caomei') {
       noswipItems.push(await genItem('caomei5'), await genItem('caomei6'), await genItem('caomei7'));
+    }
+    if (action === 'jiucai') {
+      // sellItems.push(await genItem('jiucai1'), await genItem('jiucai2'), await genItem('jiucai3'));
+      noswipItems.push(await genItem('jiucai5'), await genItem('jiucai6'));
+    }
+    if (action === 'fendi') {
+      // sellItems.push(await genItem('fendi1'));
+      noswipItems.push(await genItem('fendi5'), await genItem('fendi6'));
     }
   }
 };
@@ -568,6 +594,17 @@ const compare = async () => {
   }
 
   logger.info('compare end');
+};
+
+const demon = async () => {
+  if (demonX > iconLenX) {
+    demonX = 0;
+  } else {
+    demonX++;
+  }
+
+  await doubleClick(demonX, demonY);
+  await sleep(1000);
 };
 
 const getAllTools = async (x, y) => {
@@ -761,6 +798,7 @@ const main = async () => {
   }
 
   if (await isGame()) {
+    await demon();
     await compare();
 
     if (factoryFlag && !(await isZero())) {
@@ -772,9 +810,10 @@ const main = async () => {
     }
   }
 
+  const speed = process.argv[3] ? Number(process.argv[3]) : 30;
   setTimeout(() => {
     main();
-  }, 30 * 1000);
+  }, speed * 1000);
 };
 
 const action = process.argv[2] ? process.argv[2] : '';
@@ -786,6 +825,8 @@ switch (action) {
   case 'tiancai':
   case 'luhui':
   case 'caomei':
+  case 'jiucai':
+  case 'fendi':
     logger.info(`aciotn ${action}`);
     main();
     break;
@@ -805,5 +846,7 @@ switch (action) {
     main();
     break;
 }
+
+// node . tool jiucai3
 
 // debugCompare();
