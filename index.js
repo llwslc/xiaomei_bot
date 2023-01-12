@@ -507,6 +507,10 @@ const initItems = async () => {
       // sellItems.push(await genItem('fendi1'));
       noswipItems.push(await genItem('fendi5'), await genItem('fendi6'));
     }
+    if (action === 'jiezhi') {
+      sellItems.push(await genItem('jiezhi1'), await genItem('shouzhuo1'));
+      // noswipItems.push(await genItem('jiezhi6'), await genItem('shouzhuo5'));
+    }
   }
 };
 
@@ -810,7 +814,7 @@ const main = async () => {
     }
   }
 
-  const speed = process.argv[3] ? Number(process.argv[3]) : 30;
+  const speed = process.argv[3] ? Number(process.argv[3]) : 10;
   setTimeout(() => {
     main();
   }, speed * 1000);
@@ -827,6 +831,7 @@ switch (action) {
   case 'caomei':
   case 'jiucai':
   case 'fendi':
+  case 'jiezhi':
     logger.info(`aciotn ${action}`);
     main();
     break;
