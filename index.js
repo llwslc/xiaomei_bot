@@ -112,7 +112,7 @@ const click = async (x, y, times = 1) => {
 
 const swipe = async (x1, y1, x2, y2) => {
   const method = 'swipe';
-  const time = Math.floor(Math.random() * 1000);
+  const time = Math.floor(Math.random() * 1000) + 500;
   const shell = `${adbPath} shell input touchscreen swipe ${x1} ${y1} ${x2} ${y2} ${time}`;
   await execAsync(method, shell);
 };
