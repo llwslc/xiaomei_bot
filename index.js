@@ -35,11 +35,11 @@ let noswipItems = [];
 let sellItems = [];
 let doubleClickItems = [];
 let luckyLevelImg = '';
-let demonX = 1;
-let demonY = 2;
+const demon1 = { x: 1, y: 2, xLen: iconLenX - 2 };
+const demon2 = { x: 1, y: 3, xLen: iconLenX };
 
 const COMPARE_X = 1;
-const COMPARE_Y = 6;
+const COMPARE_Y = 5;
 
 const FACTORY_X = 1;
 const FACTORY_Y = 4;
@@ -281,6 +281,56 @@ const isError = async () => {
   return same;
 };
 
+const isDemon = async () => {
+  logger.info('checking demon');
+
+  const x = 350;
+  const y = 630;
+  const width = 75;
+  const height = 75;
+
+  const clickX = 550;
+  const clickY = 1340;
+
+  const distImg = './imgDemon.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isDemon');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
+const isFriend = async () => {
+  logger.info('checking friend');
+
+  const x = 380;
+  const y = 1470;
+  const width = 70;
+  const height = 75;
+
+  const clickX = 550;
+  const clickY = 1510;
+
+  const distImg = './imgDemon.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isFriend');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
 const isGame = async () => {
   logger.info('checking game');
 
@@ -468,6 +518,8 @@ const initItems = async () => {
     doubleClickItems = [
       await genItem('jinbi2'),
       await genItem('jinbi3'),
+      await genItem('jinbi5'),
+      await genItem('jinbi6'),
       await genItem('tili1'),
       await genItem('tili2'),
       await genItem('tili3'),
@@ -493,6 +545,9 @@ const initItems = async () => {
       noswipItems.push(await genItem('tiancai6'));
       noswipItems.push(await genItem('tiancai7'));
     }
+    if (action === 'baicau') {
+      noswipItems.push(await genItem('baicau9'));
+    }
     if (action === 'luhui') {
       noswipItems.push(await genItem('luhui5'), await genItem('luhui6'), await genItem('luhui7'));
     }
@@ -510,6 +565,7 @@ const initItems = async () => {
     if (action === 'jiezhi') {
       sellItems.push(await genItem('jiezhi1'), await genItem('shouzhuo1'));
       // noswipItems.push(await genItem('jiezhi6'), await genItem('shouzhuo5'));
+      // noswipItems.push(await genItem('jiezhi6'));
     }
   }
 };
@@ -600,14 +656,14 @@ const compare = async () => {
   logger.info('compare end');
 };
 
-const demon = async () => {
-  if (demonX > iconLenX) {
-    demonX = 0;
-  } else {
-    demonX++;
+const demon = async data => {
+  data.x++;
+
+  if (data.x > data.xLen) {
+    data.x = 1;
   }
 
-  await doubleClick(demonX, demonY);
+  await doubleClick(data.x, data.y);
   await sleep(1000);
 };
 
@@ -796,17 +852,35 @@ const main = async () => {
     await sleep(1000);
   }
 
+  if (!refresh && (await isDemon())) {
+    refresh = true;
+    await sleep(1000);
+  }
+
+  if (!refresh && (await isFriend())) {
+    refresh = true;
+    await sleep(1000);
+  }
+
   if (refresh) {
     await capture();
     await sleep(1000);
   }
 
   if (await isGame()) {
-    await demon();
+    await demon(demon1);
+    await demon(demon2);
+    await doubleClick(1, 1);
+    await doubleClick(2, 1);
     await compare();
 
     if (factoryFlag && !(await isZero())) {
-      await doubleClick(factoryX, factoryY);
+      await doubleClick(factoryX + 1, factoryY);
+      await doubleClick(factoryX + 2, factoryY);
+
+      for (let i = 0; i < 2; i++) {
+        await doubleClick(factoryX, factoryY);
+      }
       // await sleep(1000);
       // await orderLeftAction();
       // await sleep(1000);
@@ -827,6 +901,7 @@ switch (action) {
   case 'che':
   case 'guanmu':
   case 'tiancai':
+  case 'baicai':
   case 'luhui':
   case 'caomei':
   case 'jiucai':
