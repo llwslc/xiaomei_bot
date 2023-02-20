@@ -882,13 +882,15 @@ const main = async () => {
     // await doubleClick(3, 3);
 
     if (factoryFlag && !(await isZero())) {
-      await doubleClick(factoryX + 1, factoryY);
+      for (let i = 0; i < 2; i++) {
+        await doubleClick(factoryX, factoryY);
+      }
       // await doubleClick(factoryX + 2, factoryY);
 
-      const clickTime = new Date('2023-02-20T06:00:00.000').getTime();
+      const clickTime = new Date('2023-02-21T05:00:00.000').getTime();
       if (Date.now() > clickTime) {
-        for (let i = 0; i < 2; i++) {
-          await doubleClick(factoryX, factoryY);
+        for (let i = 0; i < 1; i++) {
+          await doubleClick(factoryX + 1, factoryY);
         }
       }
       // await sleep(1000);
