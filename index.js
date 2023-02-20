@@ -35,7 +35,7 @@ let noswipItems = [];
 let sellItems = [];
 let doubleClickItems = [];
 let luckyLevelImg = '';
-const demon1 = { x: 1, y: 2, xLen: iconLenX - 2 };
+const demon1 = { x: 1, y: 2, xLen: iconLenX };
 const demon2 = { x: 1, y: 3, xLen: iconLenX };
 
 const COMPARE_X = 1;
@@ -513,7 +513,7 @@ const initItems = async () => {
 
   if (!noswipItems.length) {
     // noswipItems = [await genItem('empty'), await genItem('libao1'), await genItem('baoxiang'), await genItem('jiandao')];
-    noswipItems = [await genItem('empty')];
+    noswipItems = [await genItem('empty'), await genItem('jiandao')];
     sellItems = [await genItem('jiasu1'), await genItem('jiasu2'), await genItem('jiasu3'), await genItem('jialiang1'), await genItem('jialiang2')];
     doubleClickItems = [
       await genItem('jinbi2'),
@@ -566,6 +566,9 @@ const initItems = async () => {
       sellItems.push(await genItem('jiezhi1'), await genItem('shouzhuo1'));
       // noswipItems.push(await genItem('jiezhi6'), await genItem('shouzhuo5'));
       // noswipItems.push(await genItem('jiezhi6'));
+    }
+    if (action === 'mianhua') {
+      sellItems.push(await genItem('mianhua1'));
     }
   }
 };
@@ -874,12 +877,19 @@ const main = async () => {
     await doubleClick(2, 1);
     await compare();
 
+    // await doubleClick(1, 3);
+    // await doubleClick(2, 3);
+    // await doubleClick(3, 3);
+
     if (factoryFlag && !(await isZero())) {
       await doubleClick(factoryX + 1, factoryY);
-      await doubleClick(factoryX + 2, factoryY);
+      // await doubleClick(factoryX + 2, factoryY);
 
-      for (let i = 0; i < 2; i++) {
-        await doubleClick(factoryX, factoryY);
+      const clickTime = new Date('2023-02-20T06:00:00.000').getTime();
+      if (Date.now() > clickTime) {
+        for (let i = 0; i < 2; i++) {
+          await doubleClick(factoryX, factoryY);
+        }
       }
       // await sleep(1000);
       // await orderLeftAction();
@@ -907,6 +917,7 @@ switch (action) {
   case 'jiucai':
   case 'fendi':
   case 'jiezhi':
+  case 'mianhua':
     logger.info(`aciotn ${action}`);
     main();
     break;
