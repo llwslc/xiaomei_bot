@@ -35,8 +35,9 @@ let noswipItems = [];
 let sellItems = [];
 let doubleClickItems = [];
 let luckyLevelImg = '';
-const demon1 = { x: 1, y: 2, xLen: iconLenX };
-const demon2 = { x: 1, y: 3, xLen: iconLenX };
+const demon1 = { x: 1, y: 1, xLen: 2 };
+const demon2 = { x: 1, y: 2, xLen: iconLenX };
+const demon3 = { x: 1, y: 3, xLen: iconLenX };
 
 const COMPARE_X = 1;
 const COMPARE_Y = 5;
@@ -569,6 +570,7 @@ const initItems = async () => {
     }
     if (action === 'mianhua') {
       sellItems.push(await genItem('mianhua1'));
+      // noswipItems.push(await genItem('jiezhi5'));
     }
   }
 };
@@ -871,26 +873,32 @@ const main = async () => {
   }
 
   if (await isGame()) {
-    await demon(demon1);
-    await demon(demon2);
-    await doubleClick(1, 1);
-    await doubleClick(2, 1);
+    for (let i = 1; i <= demon1.xLen; i++) {
+      await doubleClick(i, demon1.y);
+    }
+    for (let i = 1; i <= demon2.xLen; i++) {
+      await doubleClick(i, demon2.y);
+    }
+    for (let i = 1; i <= demon3.xLen; i++) {
+      await doubleClick(i, demon3.y);
+    }
+    // await demon(demon1);
+    // await demon(demon2);
+    // await demon(demon3);
+    // await doubleClick(1, 1);
+    // await doubleClick(2, 1);
     await compare();
 
-    // await doubleClick(1, 3);
-    // await doubleClick(2, 3);
-    // await doubleClick(3, 3);
-
     if (factoryFlag && !(await isZero())) {
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < 3; i++) {
         await doubleClick(factoryX, factoryY);
       }
       // await doubleClick(factoryX + 2, factoryY);
 
-      const clickTime = new Date('2023-02-21T05:00:00.000').getTime();
+      const clickTime = new Date('2023-02-22T07:00:00.000').getTime();
       if (Date.now() > clickTime) {
         for (let i = 0; i < 1; i++) {
-          await doubleClick(factoryX + 1, factoryY);
+          // await doubleClick(factoryX + 1, factoryY);
         }
       }
       // await sleep(1000);
