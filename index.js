@@ -897,6 +897,10 @@ const main = async () => {
   if (!refresh && (await isFriend())) {
     refresh = true;
     await sleep(1000);
+    await capture();
+    await sleep(1000);
+    await isUpgrade();
+    await sleep(1000);
   }
 
   if (refresh) {
