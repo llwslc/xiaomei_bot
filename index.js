@@ -118,6 +118,12 @@ const swipe = async (x1, y1, x2, y2) => {
   await execAsync(method, shell);
 };
 
+const home = async () => {
+  const method = 'home';
+  const shell = `${adbPath} shell input keyevent KEYCODE_HOME`;
+  await execAsync(method, shell);
+};
+
 const getImgPos = (xi, yi) => {
   return {
     x: iconX + iconWidth * (xi - 1),
@@ -318,7 +324,7 @@ const isFriend = async () => {
   const clickX = 550;
   const clickY = 1510;
 
-  const distImg = './imgDemon.png';
+  const distImg = './imgFriend.png';
 
   const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
   const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
@@ -499,6 +505,32 @@ const doubleClick = async (xi, yi) => {
   await click(x, y);
 };
 
+const restartGame = async () => {
+  const x = 550;
+  const y = 1500;
+  const width = 180;
+  const height = 180;
+
+  const clickX = 670;
+  const clickY = 1650;
+
+  await capture();
+  await sleep(500);
+
+  const distImg = './imgHome.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('restartGame');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
 const initItems = async () => {
   const width = iconWidth;
   const height = iconHeight;
@@ -569,8 +601,8 @@ const initItems = async () => {
       // noswipItems.push(await genItem('jiezhi6'));
     }
     if (action === 'mianhua') {
-      sellItems.push(await genItem('mianhua1'));
-      // noswipItems.push(await genItem('jiezhi5'));
+      // sellItems.push(await genItem('mianhua1'));
+      noswipItems.push(await genItem('mianhua5'));
     }
   }
 };
@@ -906,6 +938,11 @@ const main = async () => {
       // await sleep(1000);
       // await orderRightAction();
     }
+  } else {
+    await home();
+    await sleep(1000);
+    await restartGame();
+    await sleep(60 * 1000);
   }
 
   const speed = process.argv[3] ? Number(process.argv[3]) : 10;
