@@ -241,13 +241,13 @@ const isLevelup = async () => {
 const isAdvertise = async () => {
   logger.info('checking advertise');
 
-  const x = 30;
-  const y = 90;
+  const x = 420;
+  const y = 1540;
   const width = 250;
-  const height = 200;
+  const height = 80;
 
-  const clickX = 60;
-  const clickY = 140;
+  const clickX = 550;
+  const clickY = 1850;
 
   const distImg = './imgAdvertise.png';
 
@@ -852,6 +852,13 @@ const main = async () => {
   await capture();
   await sleep(1000);
 
+  if (await isAdvertise()) {
+    setTimeout(() => {
+      main();
+    }, 3 * 1000);
+    return;
+  }
+
   if (await isEmpty()) {
     factoryFlag = false;
     refresh = true;
@@ -867,11 +874,6 @@ const main = async () => {
     setTimeout(() => {
       main();
     }, 10 * 60 * 1000);
-  }
-
-  if (!refresh && (await isAdvertise())) {
-    refresh = true;
-    await sleep(2000);
   }
 
   if (!refresh && (await isLucky())) {
