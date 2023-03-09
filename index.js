@@ -602,7 +602,10 @@ const initItems = async () => {
     }
     if (action === 'mianhua') {
       // sellItems.push(await genItem('mianhua1'));
-      noswipItems.push(await genItem('mianhua5'));
+      noswipItems.push(await genItem('mianhua5'), await genItem('mianhua8'));
+    }
+    if (action === 'shuijiao') {
+      sellItems.push(await genItem('mianhua1'));
     }
   }
 };
@@ -929,14 +932,14 @@ const main = async () => {
 
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 3; i++) {
-        await doubleClick(factoryX, factoryY);
+        // await doubleClick(factoryX, factoryY);
       }
-      // await doubleClick(factoryX + 2, factoryY);
 
       const clickTime = new Date('2023-02-22T07:00:00.000').getTime();
       if (Date.now() > clickTime) {
         for (let i = 0; i < 1; i++) {
-          // await doubleClick(factoryX + 1, factoryY);
+          await doubleClick(factoryX + 1, factoryY);
+          await doubleClick(factoryX + 2, factoryY);
         }
       }
       // await sleep(1000);
@@ -971,6 +974,7 @@ switch (action) {
   case 'fendi':
   case 'jiezhi':
   case 'mianhua':
+  case 'shuijiao':
     logger.info(`aciotn ${action}`);
     main();
     break;
@@ -978,7 +982,7 @@ switch (action) {
     capture();
     break;
   case 'tool':
-    genTools(2, 7);
+    genTools(2, 9);
     break;
   case 'all':
     getAllTools();
