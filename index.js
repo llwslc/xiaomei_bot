@@ -602,10 +602,11 @@ const initItems = async () => {
     }
     if (action === 'mianhua') {
       // sellItems.push(await genItem('mianhua1'));
-      noswipItems.push(await genItem('mianhua5'), await genItem('mianhua8'));
+      noswipItems.push(await genItem('mianhua5'), await genItem('meibi5'));
     }
     if (action === 'shuijiao') {
-      sellItems.push(await genItem('mianhua1'));
+      // sellItems.push(await genItem('mianhua1'));
+      noswipItems.push(await genItem('mianhua7'), await genItem('meibi6'));
     }
   }
 };
@@ -834,6 +835,7 @@ const debugCompare = async () => {
 };
 
 let factoryFlag = true;
+let reInit = false;
 
 const main = async () => {
   const linked = await devices();
@@ -914,13 +916,13 @@ const main = async () => {
   }
 
   if (await isGame()) {
-    for (let i = 1; i <= demon1.xLen; i++) {
+    for (let i = demon1.x; i <= demon1.xLen; i++) {
       await doubleClick(i, demon1.y);
     }
-    for (let i = 1; i <= demon2.xLen; i++) {
+    for (let i = demon2.x; i <= demon2.xLen; i++) {
       await doubleClick(i, demon2.y);
     }
-    for (let i = 1; i <= demon3.xLen; i++) {
+    for (let i = demon3.x; i <= demon3.xLen; i++) {
       await doubleClick(i, demon3.y);
     }
     // await demon(demon1);
@@ -932,14 +934,20 @@ const main = async () => {
 
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 3; i++) {
-        // await doubleClick(factoryX, factoryY);
+        await doubleClick(factoryX, factoryY);
+        // await doubleClick(factoryX + 1, factoryY);
+        // await doubleClick(factoryX + 2, factoryY);
       }
 
-      const clickTime = new Date('2023-02-22T07:00:00.000').getTime();
+      const clickTime = new Date('2023-03-13T07:00:00.000').getTime();
       if (Date.now() > clickTime) {
-        for (let i = 0; i < 1; i++) {
-          await doubleClick(factoryX + 1, factoryY);
-          await doubleClick(factoryX + 2, factoryY);
+        if (!reInit) {
+          // reInit = true;
+          // sellItems.pop();
+        }
+        for (let i = 0; i < 3; i++) {
+          // await doubleClick(factoryX + 1, factoryY);
+          // await doubleClick(factoryX + 2, factoryY);
         }
       }
       // await sleep(1000);
