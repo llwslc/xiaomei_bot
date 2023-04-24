@@ -338,6 +338,31 @@ const isFriend = async () => {
   return same;
 };
 
+const isAchievement = async () => {
+  logger.info('checking friend');
+
+  const x = 400;
+  const y = 1288;
+  const width = 300;
+  const height = 75;
+
+  const clickX = 540;
+  const clickY = 1560;
+
+  const distImg = './imgAchievement.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isAchievement');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
 const isGame = async () => {
   logger.info('checking game');
 
@@ -606,7 +631,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('mianhua1'));
-      noswipItems.push(await genItem('mianhua7'), await genItem('meibi6'));
+      noswipItems.push(await genItem('tuzi8'));
     }
   }
 };
@@ -910,6 +935,11 @@ const main = async () => {
     await sleep(1000);
   }
 
+  if (!refresh && (await isAchievement())) {
+    refresh = true;
+    await sleep(1000);
+  }
+
   if (refresh) {
     await capture();
     await sleep(1000);
@@ -917,7 +947,7 @@ const main = async () => {
 
   if (await isGame()) {
     for (let i = demon1.x; i <= demon1.xLen; i++) {
-      await doubleClick(i, demon1.y);
+      // await doubleClick(i, demon1.y);
     }
     for (let i = demon2.x; i <= demon2.xLen; i++) {
       await doubleClick(i, demon2.y);
@@ -930,17 +960,20 @@ const main = async () => {
     // await demon(demon3);
     // await doubleClick(1, 1);
     // await doubleClick(2, 1);
+    // await doubleClick(5, 3);
     await compare();
 
     if (factoryFlag && !(await isZero())) {
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 10; i++) {
         await doubleClick(factoryX, factoryY);
         // await doubleClick(factoryX + 1, factoryY);
         // await doubleClick(factoryX + 2, factoryY);
       }
 
-      const clickTime = new Date('2023-03-13T07:00:00.000').getTime();
+      const clickTime = new Date('2023-04-02T08:00:00.000').getTime();
       if (Date.now() > clickTime) {
+        // await doubleClick(factoryX, factoryY);
+
         if (!reInit) {
           // reInit = true;
           // sellItems.pop();
