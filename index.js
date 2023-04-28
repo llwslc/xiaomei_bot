@@ -818,7 +818,7 @@ const initItems = async () => {
       storeItems.push('tuzi5');
       noswipItems.push(await genItem('tuzi5'));
     }
-    if (action === 'onlyStore') {
+    if (action === 'onlystore') {
       storeItems.push('tuzi5');
       ONLY_STORE = true;
     }
@@ -1251,7 +1251,7 @@ switch (action) {
   case 'jiezhi':
   case 'mianhua':
   case 'shuijiao':
-  case 'onlyStore':
+  case 'onlystore':
     logger.info(`aciotn ${action}`);
     main();
     break;
