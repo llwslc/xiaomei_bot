@@ -46,6 +46,8 @@ const COMPARE_Y = 5;
 const FACTORY_X = 1;
 const FACTORY_Y = 4;
 
+let ONLY_STORE = false;
+
 const sleep = (ms = 1000) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
@@ -816,6 +818,10 @@ const initItems = async () => {
       storeItems.push('tuzi5');
       noswipItems.push(await genItem('tuzi5'));
     }
+    if (action === 'onlyStore') {
+      storeItems.push('tuzi5');
+      ONLY_STORE = true;
+    }
   }
 };
 
@@ -1169,6 +1175,12 @@ const main = async () => {
 
   if (await isGame()) {
     await upStore();
+    if (ONLY_STORE) {
+      setTimeout(() => {
+        main();
+      }, 10 * 1000);
+      return;
+    }
 
     for (let i = demon1.x; i <= demon1.xLen; i++) {
       // await doubleClick(i, demon1.y);
@@ -1239,6 +1251,7 @@ switch (action) {
   case 'jiezhi':
   case 'mianhua':
   case 'shuijiao':
+  case 'onlyStore':
     logger.info(`aciotn ${action}`);
     main();
     break;
