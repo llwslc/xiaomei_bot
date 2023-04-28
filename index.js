@@ -588,6 +588,9 @@ const upStore = async () => {
   }
 
   await closeStore();
+
+  await sleep(1000);
+  await capture();
 };
 // end store
 
