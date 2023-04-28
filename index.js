@@ -904,17 +904,6 @@ const compare = async () => {
   logger.info('compare end');
 };
 
-const demon = async data => {
-  data.x++;
-
-  if (data.x > data.xLen) {
-    data.x = 1;
-  }
-
-  await doubleClick(data.x, data.y);
-  await sleep(1000);
-};
-
 const getAllTools = async (x, y) => {
   await capture();
   await sleep(2000);
@@ -1189,12 +1178,11 @@ const main = async () => {
     for (let i = demon3.x; i <= demon3.xLen; i++) {
       await doubleClick(i, demon3.y);
     }
-    // await demon(demon1);
-    // await demon(demon2);
-    // await demon(demon3);
+
     // await doubleClick(1, 1);
     // await doubleClick(2, 1);
     // await doubleClick(5, 3);
+
     await compare();
 
     if (factoryFlag && !(await isZero())) {
