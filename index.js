@@ -34,10 +34,11 @@ const iconHeight = 140;
 let noswipItems = [];
 let sellItems = [];
 let doubleClickItems = [];
+let storeItems = [];
 let luckyLevelImg = '';
 const demon1 = { x: 1, y: 1, xLen: 2 };
 const demon2 = { x: 1, y: 2, xLen: iconLenX };
-const demon3 = { x: 1, y: 3, xLen: iconLenX };
+const demon3 = { x: 4, y: 3, xLen: iconLenX };
 
 const COMPARE_X = 1;
 const COMPARE_Y = 5;
@@ -45,7 +46,7 @@ const COMPARE_Y = 5;
 const FACTORY_X = 1;
 const FACTORY_Y = 4;
 
-const sleep = ms => {
+const sleep = (ms = 1000) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
@@ -105,7 +106,7 @@ const capture = async () => {
 const click = async (x, y, times = 1) => {
   const method = 'click';
   const offset = Math.floor(Math.random() * 20);
-  const shell = `${adbPath} shell input tap ${x + offset} ${y + offset}`;
+  const shell = `${adbPath} shell input tap ${Math.floor(x) + offset} ${Math.floor(y) + offset}`;
   for (let i = 0; i < times; i++) {
     await execAsync(method, shell);
   }
@@ -114,7 +115,7 @@ const click = async (x, y, times = 1) => {
 const swipe = async (x1, y1, x2, y2) => {
   const method = 'swipe';
   const time = Math.floor(Math.random() * 1000) + 500;
-  const shell = `${adbPath} shell input touchscreen swipe ${x1} ${y1} ${x2} ${y2} ${time}`;
+  const shell = `${adbPath} shell input touchscreen swipe ${Math.floor(x1)} ${Math.floor(y1)} ${Math.floor(x2)} ${Math.floor(y2)} ${time}`;
   await execAsync(method, shell);
 };
 
@@ -407,6 +408,186 @@ const isZero = async () => {
   return same;
 };
 
+// start store
+const openStore = async () => {
+  logger.info('open store');
+
+  const clickX = 980;
+  const clickY = 2050;
+
+  await click(clickX, clickY);
+};
+
+const closeStore = async () => {
+  logger.info('close store');
+
+  const clickX = 100;
+  const clickY = 530;
+
+  await click(clickX, clickY);
+};
+
+const isStore = async () => {
+  logger.info('checking store');
+
+  const x = 410;
+  const y = 490;
+  const width = 100;
+  const height = 80;
+
+  const distImg = './store/imgStore.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isStore');
+  }
+  return same;
+};
+
+const isStoreDown = async () => {
+  logger.info('checking store down');
+
+  const x = 390;
+  const y = 750;
+  const width = 300;
+  const height = 80;
+
+  const distImg = './store/imgDown.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isStoreDown');
+  }
+  return same;
+};
+
+const isStoreUp = async () => {
+  logger.info('checking store up');
+
+  const x = 410;
+  const y = 430;
+  const width = 360;
+  const height = 80;
+
+  const distImg = './store/imgUp.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isStoreUp');
+  }
+  return same;
+};
+
+const upStoreItem = async () => {
+  logger.info('upStoreItem');
+
+  const itemStartX = 200;
+  const itemStartY = 575;
+  const itemSpaceX = 197;
+  const itemSpaceY = 280;
+  const itemXLen = 4;
+  const itemYLen = 3;
+  const width = 100;
+  const height = 120;
+
+  for (let i = 0; i < itemXLen; i++) {
+    const x = itemStartX + i * itemSpaceX;
+    for (let j = 0; j < itemYLen; j++) {
+      const y = itemStartY + j * itemSpaceY;
+
+      const data = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+      const item = { width, height, data };
+      for (let s = 0; s < storeItems.length; s++) {
+        const distItem = {
+          width,
+          height,
+          data: await sharp(`./store/items/${storeItems[s]}-0.png`).extract({ left: x, top: y, width, height }).raw().toBuffer()
+        };
+        if (await sameAsync(item, distItem)) {
+          await click(x + width / 2, y + height / 2);
+          return same;
+        }
+
+        distItem.data = await sharp(`./store/items/${storeItems[s]}-1.png`).extract({ left: x, top: y, width, height }).raw().toBuffer();
+        if (await sameAsync(item, distItem)) {
+          await click(x + width / 2, y + height / 2);
+          return same;
+        }
+      }
+    }
+  }
+};
+
+const upStore = async () => {
+  logger.info('up store');
+
+  const itemX = 190;
+  const itemY = 785;
+  const width = 350;
+  const height = 395;
+
+  const itemLen = 3;
+
+  const itemDownX = 500;
+  const itemDownY = 2000;
+
+  const itemBoardX = [250, 250];
+  const itemBoardY = [1190, 100];
+  const itemPriceX = [540, 950];
+  const itemPriceY = [1525, 1525];
+  const itemUpX = 540;
+  const itemUpY = 1660;
+
+  if (!storeItems.length) return;
+
+  await openStore();
+  await sleep();
+  await capture();
+  if (!(await isStore())) {
+    return;
+  }
+
+  for (let i = 0; i < itemLen; i++) {
+    const x = itemX + i * width;
+
+    for (let j = 0; j < itemLen; j++) {
+      const y = itemY + j * height;
+
+      await click(x, y);
+      await sleep(1000);
+      await capture();
+
+      if (await isStoreUp()) {
+        await swipe(itemBoardX[0], itemBoardY[0], itemBoardX[1], itemBoardY[1]);
+        if (await upStoreItem()) {
+          await sleep(1000);
+          await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
+          await sleep(1000);
+          await click(itemUpX, itemUpY);
+          await sleep(1000);
+        }
+      } else {
+        await click(itemDownX, itemDownY);
+      }
+    }
+  }
+
+  await closeStore();
+};
+// end store
+
 const orderLeftAction = async () => {
   const clickX = 360;
   const clickY = 500;
@@ -631,7 +812,8 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('mianhua1'));
-      noswipItems.push(await genItem('tuzi8'));
+      storeItems.push('tuzi5');
+      noswipItems.push(await genItem('tuzi5'));
     }
   }
 };
@@ -763,6 +945,16 @@ const genTools = async (x, y) => {
   sharp(imgName).extract({ left, top, width, height }).toFile(`./tools/${name}.png`);
 };
 
+const genStore = async () => {
+  await capture();
+  await sleep(2000);
+
+  const name = process.argv[3] ? process.argv[3] : 'temp';
+  const index = process.argv[4] ? process.argv[4] : '0';
+
+  sharp(imgName).toFile(`./store/items/${name}-${index}.png`);
+};
+
 const debugCheck = async () => {
   const width = 140;
   const height = 140;
@@ -859,6 +1051,40 @@ const debugCompare = async () => {
   }
 };
 
+const debugStore = async () => {
+  const itemStartX = 200;
+  const itemStartY = 575;
+  const itemSpaceX = 197;
+  const itemSpaceY = 280;
+  const itemWidth = 100;
+  const itemHeight = 120;
+  const itemXLen = 4;
+  const itemYLen = 3;
+
+  storeItems = ['tuzi5'];
+
+  for (let i = 0; i < itemXLen; i++) {
+    const width = itemWidth;
+    const height = itemHeight;
+    const x = itemStartX + i * itemSpaceX;
+    for (let j = 0; j < itemYLen; j++) {
+      const y = itemStartY + j * itemSpaceY;
+
+      await sharp(imgName).extract({ left: x, top: y, width, height }).toFile(`./store/items/temp/${i}-${j}.png`);
+
+      for (let s = 0; s < storeItems.length; s++) {
+        const path0 = `./store/items/${storeItems[s]}-0.png`;
+        await sharp(path0).extract({ left: x, top: y, width, height }).toFile(`./store/items/temp/d0-${i}-${j}.png`);
+        const path1 = `./store/items/${storeItems[s]}-1.png`;
+        await sharp(path1).extract({ left: x, top: y, width, height }).toFile(`./store/items/temp/d1-${i}-${j}.png`);
+      }
+    }
+  }
+
+  console.log(await sameAsync('./store/items/temp/2-0.png', './store/items/temp/1-1.png'));
+  console.log(await sameAsync('./store/items/temp/1-1.png', './store/items/temp/2-1.png'));
+};
+
 let factoryFlag = true;
 let reInit = false;
 
@@ -940,12 +1166,20 @@ const main = async () => {
     await sleep(1000);
   }
 
+  if (!refresh && (await isStore())) {
+    refresh = true;
+    await closeStore();
+    await sleep(1000);
+  }
+
   if (refresh) {
     await capture();
     await sleep(1000);
   }
 
   if (await isGame()) {
+    await upStore();
+
     for (let i = demon1.x; i <= demon1.xLen; i++) {
       // await doubleClick(i, demon1.y);
     }
@@ -1025,17 +1259,29 @@ switch (action) {
   case 'tool':
     genTools(2, 9);
     break;
+  case 'store':
+    genStore();
+    break;
   case 'all':
     getAllTools();
     break;
   case 'debug':
     debugCheck();
     break;
+  case 'debugStore':
+    debugStore();
+    break;
   default:
     main();
     break;
 }
 
-// node . tool jiucai3
+/**
+ *
+ *
+node . tool jiucai3
+node . store jiucai3 0
 
-// debugCompare();
+debugCompare();
+ *
+ */
