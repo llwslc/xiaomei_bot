@@ -517,17 +517,18 @@ const upStoreItem = async () => {
         };
         if (await sameAsync(item, distItem)) {
           await click(x + width / 2, y + height / 2);
-          return same;
+          return true;
         }
 
         distItem.data = await sharp(`./store/items/${storeItems[s]}-1.png`).extract({ left: x, top: y, width, height }).raw().toBuffer();
         if (await sameAsync(item, distItem)) {
           await click(x + width / 2, y + height / 2);
-          return same;
+          return true;
         }
       }
     }
   }
+  return false;
 };
 
 const upStore = async () => {
