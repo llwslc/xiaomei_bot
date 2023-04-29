@@ -581,7 +581,6 @@ const upStore = async () => {
           await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
           await sleep(1000);
           await click(itemUpX, itemUpY);
-          await sleep(1000);
         } else {
           await click(itemDownX, itemDownY);
           noUp = true;
