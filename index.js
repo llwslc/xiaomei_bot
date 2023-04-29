@@ -77,7 +77,7 @@ const sameAsync = async (img1, img2, debug = false) => {
   }
 
   debug && console.log(dist, diff.percent);
-  return dist < 0.15 && diff.percent < 0.15;
+  return dist < 0.15 && diff.percent < 0.1;
 };
 
 const exactSameAsync = async (img1, img2, debug = false) => {
@@ -543,8 +543,8 @@ const upStore = async () => {
 
   const itemLen = 3;
 
-  const itemDownX = 500;
-  const itemDownY = 2000;
+  const itemDownX = 540;
+  const itemDownY = 1880;
 
   const itemBoardX = [250, 250];
   const itemBoardY = [1190, 100];
@@ -564,6 +564,7 @@ const upStore = async () => {
 
   for (let i = 0; i < itemLen; i++) {
     const x = itemX + i * width;
+    let noUp = false;
 
     for (let j = 0; j < itemLen; j++) {
       const y = itemY + j * height;
@@ -580,11 +581,17 @@ const upStore = async () => {
           await sleep(1000);
           await click(itemUpX, itemUpY);
           await sleep(1000);
+        } else {
+          await click(itemDownX, itemDownY);
+          noUp = true;
+          break;
         }
       } else {
         await click(itemDownX, itemDownY);
       }
     }
+
+    if (noUp) break;
   }
 
   await closeStore();
@@ -954,24 +961,20 @@ const genStore = async () => {
   sharp(imgName).toFile(`./store/items/${name}-${index}.png`);
 };
 
-const debugCheck = async () => {
-  const width = 140;
-  const height = 140;
+const debugCheck = async (x1, y1, x2, y2) => {
+  await capture();
+  await sleep();
 
-  const distImg = await sharp('./tools/empty.png').raw().toBuffer();
+  const { x: left1, y: top1 } = getImgPos(x1, y1);
+  const { x: left2, y: top2 } = getImgPos(x2, y2);
+  const width = iconWidth;
+  const height = iconHeight;
 
-  const imgs = [await sharp('./tools/guozhi1.png').raw().toBuffer(), await sharp('./tools/guozhi2.png').raw().toBuffer()];
+  const jImg1 = await sharp(imgName).extract({ left: left1, top: top1, width, height }).raw().toBuffer();
+  const jImg2 = await sharp(imgName).extract({ left: left2, top: top2, width, height }).raw().toBuffer();
 
-  for (let i = 0; i < imgs.length; i++) {
-    const same = await sameAsync({ width, height, data: imgs[i] }, { width, height, data: distImg }, true);
-    console.log(same);
-  }
-
-  const jImg1 = await Jimp.read('./tools/guozhi1.png');
-  const jImg2 = await Jimp.read('./tools/empty.png');
-  const dist = Jimp.distance(jImg1, jImg2);
-  const diff = Jimp.diff(jImg1, jImg2);
-  console.log({ dist, diff });
+  const same = await sameAsync({ width, height, data: jImg1 }, { width, height, data: jImg2 }, true);
+  console.log(same);
 };
 
 const debugCheck2 = async () => {
@@ -1271,7 +1274,8 @@ switch (action) {
     getAllTools();
     break;
   case 'debug':
-    debugCheck();
+    debugCheck(1, 6, 1, 7);
+    debugCheck(1, 6, 1, 9);
     break;
   case 'debugStore':
     debugStore();
