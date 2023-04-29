@@ -1229,6 +1229,9 @@ const main = async () => {
       // await orderRightAction();
     }
 
+    await sleep();
+    await capture();
+    await isEmpty();
     await compare();
   } else {
     await home();
