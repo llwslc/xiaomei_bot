@@ -1235,6 +1235,7 @@ const main = async () => {
     await isEmpty();
     await sleep();
     await capture();
+    await sleep();
     await compare();
   } else {
     await home();
