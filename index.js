@@ -977,20 +977,21 @@ const debugCheck = async (x1, y1, x2, y2) => {
   console.log(same);
 };
 
-const debugCheck2 = async () => {
-  const width = 400;
-  const height = 400;
+const debugCheck2 = async (x, y, name) => {
+  await capture();
+  await sleep();
 
-  const distImg = await sharp('./temp2.png').raw().toBuffer();
+  const { x: left, y: top } = getImgPos(x, y);
+  const width = iconWidth;
+  const height = iconHeight;
 
-  const imgs = [await sharp('./temp1.png').raw().toBuffer()];
+  const jImg1 = await sharp(imgName).extract({ left, top, width, height }).raw().toBuffer();
+  const jImg2 = await sharp(`./tools/${name}.png`).raw().toBuffer();
 
-  console.log(distImg, imgs);
+  await sharp(imgName).extract({ left, top, width, height }).toFile(`./tools/temp.png`);
 
-  for (let i = 0; i < imgs.length; i++) {
-    const same = await sameAsync({ width, height, data: imgs[i] }, { width, height, data: distImg }, true);
-    console.log(same);
-  }
+  const same = await sameAsync({ width, height, data: jImg1 }, { width, height, data: jImg2 }, true);
+  console.log(same);
 };
 
 const debugCompare = async () => {
@@ -1232,6 +1233,8 @@ const main = async () => {
     await sleep();
     await capture();
     await isEmpty();
+    await sleep();
+    await capture();
     await compare();
   } else {
     await home();
@@ -1280,6 +1283,9 @@ switch (action) {
   case 'debug':
     debugCheck(1, 6, 1, 7);
     debugCheck(1, 6, 1, 9);
+    break;
+  case 'debug2':
+    debugCheck2(6, 8, 'jiasu2');
     break;
   case 'debugStore':
     debugStore();
