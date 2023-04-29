@@ -569,6 +569,7 @@ const upStore = async () => {
     for (let j = 0; j < itemLen; j++) {
       const y = itemY + j * height;
 
+      await sleep(1000);
       await click(x, y);
       await sleep(1000);
       await capture();
@@ -588,7 +589,6 @@ const upStore = async () => {
         }
       } else {
         await click(itemDownX, itemDownY);
-        await sleep(1000);
       }
     }
 
