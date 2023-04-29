@@ -588,6 +588,7 @@ const upStore = async () => {
         }
       } else {
         await click(itemDownX, itemDownY);
+        await sleep(1000);
       }
     }
 
