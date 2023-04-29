@@ -1202,8 +1202,6 @@ const main = async () => {
     // await doubleClick(2, 1);
     // await doubleClick(5, 3);
 
-    await compare();
-
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 10; i++) {
         await doubleClick(factoryX, factoryY);
@@ -1224,11 +1222,14 @@ const main = async () => {
           // await doubleClick(factoryX + 2, factoryY);
         }
       }
+
       // await sleep(1000);
       // await orderLeftAction();
       // await sleep(1000);
       // await orderRightAction();
     }
+
+    await compare();
   } else {
     await home();
     await sleep(1000);
