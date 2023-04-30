@@ -569,9 +569,9 @@ const upStore = async () => {
     for (let j = 0; j < itemLen; j++) {
       const y = itemY + j * height;
 
-      await sleep(1000);
+      await sleep();
       await click(x, y);
-      await sleep(1000);
+      await sleep();
       await capture();
 
       if (await isStoreUp()) {
@@ -581,12 +581,12 @@ const upStore = async () => {
         }
 
         await swipe(itemBoardX[0], itemBoardY[0], itemBoardX[1], itemBoardY[1]);
-        await sleep(1000);
+        await sleep();
         await capture();
         if (await upStoreItem()) {
-          await sleep(1000);
+          await sleep();
           await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
-          await sleep(1000);
+          await sleep();
           await click(itemUpX, itemUpY);
         } else {
           await click(itemDownX, itemDownY);
@@ -601,7 +601,7 @@ const upStore = async () => {
 
   await closeStore();
 
-  await sleep(1000);
+  await sleep();
   await capture();
 };
 // end store
@@ -646,7 +646,7 @@ const luckyAction = async () => {
 
     logger.info('lv2');
     await click(clickX, clickY);
-    await sleep(1000);
+    await sleep();
     return;
   }
 
@@ -671,7 +671,7 @@ const sellAction = async (xi, yi) => {
 
   await click(getImgClickPos(xi, yi).x, getImgClickPos(xi, yi).y);
   await capture();
-  await sleep(1000);
+  await sleep();
 
   const sell = async distImg => {
     const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
@@ -682,7 +682,7 @@ const sellAction = async (xi, yi) => {
     if (same) {
       logger.info('sell');
       await click(clickX, clickY);
-      await sleep(1000);
+      await sleep();
 
       await sellConfirmAction();
       return true;
@@ -704,7 +704,7 @@ const sellConfirmAction = async () => {
   const clickY = 1290;
 
   await capture();
-  await sleep(1000);
+  await sleep();
 
   const distImg = './imgSellEnd.png';
 
@@ -916,7 +916,7 @@ const compare = async () => {
 
     logger.info(`same [${item1.x},${item1.y}] - [${item2.x},${item2.y}]`);
     await swipe(from.x, from.y, to.x, to.y);
-    await sleep(1000);
+    await sleep();
     await luckyAction();
     await sleep(100);
     await upgradeAction();
@@ -1114,7 +1114,7 @@ const main = async () => {
   await initItems();
 
   await capture();
-  await sleep(1000);
+  await sleep();
 
   if (await isAdvertise()) {
     setTimeout(() => {
@@ -1131,7 +1131,7 @@ const main = async () => {
       factoryFlag = true;
     }, 5 * 60 * 1000);
 
-    await sleep(1000);
+    await sleep();
   }
 
   if (!refresh && (await isError())) {
@@ -1142,47 +1142,47 @@ const main = async () => {
 
   if (!refresh && (await isLucky())) {
     refresh = true;
-    await sleep(1000);
+    await sleep();
   }
 
   if (!refresh && (await isUpgrade())) {
     refresh = true;
-    await sleep(1000);
+    await sleep();
   }
 
   if (!refresh && (await isLevelup())) {
     refresh = true;
-    await sleep(1000);
+    await sleep();
   }
 
   if (!refresh && (await isDemon())) {
     refresh = true;
-    await sleep(1000);
+    await sleep();
   }
 
   if (!refresh && (await isFriend())) {
     refresh = true;
-    await sleep(1000);
+    await sleep();
     await capture();
-    await sleep(1000);
+    await sleep();
     await isUpgrade();
-    await sleep(1000);
+    await sleep();
   }
 
   if (!refresh && (await isAchievement())) {
     refresh = true;
-    await sleep(1000);
+    await sleep();
   }
 
   if (!refresh && (await isStore())) {
     refresh = true;
     await closeStore();
-    await sleep(1000);
+    await sleep();
   }
 
   if (refresh) {
     await capture();
-    await sleep(1000);
+    await sleep();
   }
 
   if (await isGame()) {
@@ -1229,9 +1229,9 @@ const main = async () => {
         }
       }
 
-      // await sleep(1000);
+      // await sleep();
       // await orderLeftAction();
-      // await sleep(1000);
+      // await sleep();
       // await orderRightAction();
     }
 
@@ -1244,7 +1244,7 @@ const main = async () => {
     await compare();
   } else {
     await home();
-    await sleep(1000);
+    await sleep();
     await restartGame();
     await sleep(60 * 1000);
   }
