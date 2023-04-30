@@ -562,9 +562,9 @@ const upStore = async () => {
     return;
   }
 
+  let noUp = false;
   for (let i = 0; i < itemLen; i++) {
     const x = itemX + i * width;
-    let noUp = false;
 
     for (let j = 0; j < itemLen; j++) {
       const y = itemY + j * height;
@@ -575,6 +575,11 @@ const upStore = async () => {
       await capture();
 
       if (await isStoreUp()) {
+        if (noUp) {
+          await click(itemDownX, itemDownY);
+          break;
+        }
+
         await swipe(itemBoardX[0], itemBoardY[0], itemBoardX[1], itemBoardY[1]);
         if (await upStoreItem()) {
           await sleep(1000);
@@ -590,8 +595,6 @@ const upStore = async () => {
         await click(itemDownX, itemDownY);
       }
     }
-
-    if (noUp) break;
   }
 
   await closeStore();
