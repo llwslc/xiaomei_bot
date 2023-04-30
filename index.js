@@ -581,6 +581,8 @@ const upStore = async () => {
         }
 
         await swipe(itemBoardX[0], itemBoardY[0], itemBoardX[1], itemBoardY[1]);
+        await sleep(1000);
+        await capture();
         if (await upStoreItem()) {
           await sleep(1000);
           await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
