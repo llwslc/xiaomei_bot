@@ -837,6 +837,9 @@ const initItems = async () => {
       storeItems.push('tuzi5');
       ONLY_STORE = true;
     }
+    if (action === 'nostore') {
+      noswipItems.push(await genItem('tuzi8'));
+    }
   }
 };
 
@@ -1210,9 +1213,12 @@ const main = async () => {
 
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 10; i++) {
-        await doubleClick(factoryX, factoryY);
-        // await doubleClick(factoryX + 1, factoryY);
+        // await doubleClick(factoryX, factoryY);
+        await doubleClick(factoryX + 1, factoryY);
         // await doubleClick(factoryX + 2, factoryY);
+      }
+      for (let i = 0; i < 3; i++) {
+        // await doubleClick(factoryX, factoryY);
       }
 
       const clickTime = new Date('2023-04-02T08:00:00.000').getTime();
@@ -1271,6 +1277,7 @@ switch (action) {
   case 'mianhua':
   case 'shuijiao':
   case 'onlystore':
+  case 'nostore':
     logger.info(`aciotn ${action}`);
     main();
     break;
