@@ -342,7 +342,7 @@ const isFriend = async () => {
 };
 
 const isAchievement = async () => {
-  logger.info('checking friend');
+  logger.info('checking achievement');
 
   const x = 400;
   const y = 1288;
@@ -829,12 +829,14 @@ const initItems = async () => {
       noswipItems.push(await genItem('mianhua5'), await genItem('meibi5'));
     }
     if (action === 'shuijiao') {
-      // sellItems.push(await genItem('mianhua1'));
+      // sellItems.push(await genItem('fengzheng1'));
       storeItems.push('tuzi5');
-      noswipItems.push(await genItem('tuzi5'));
+      noswipItems.push(await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
+      noswipItems.push(await genItem('jingxi5'));
     }
     if (action === 'onlystore') {
       storeItems.push('tuzi5');
+      storeItems.push('jingxi5');
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
@@ -1216,6 +1218,9 @@ const main = async () => {
         await doubleClick(factoryX, factoryY);
         // await doubleClick(factoryX + 1, factoryY);
         // await doubleClick(factoryX + 2, factoryY);
+      }
+      for (let i = 0; i < 3; i++) {
+        // await doubleClick(factoryX, factoryY);
       }
 
       const clickTime = new Date('2023-04-02T08:00:00.000').getTime();
