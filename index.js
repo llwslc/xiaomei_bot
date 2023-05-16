@@ -832,11 +832,11 @@ const initItems = async () => {
       // sellItems.push(await genItem('fengzheng1'));
       storeItems.push('tuzi5');
       noswipItems.push(await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
-      noswipItems.push(await genItem('jingxi5'));
+      // noswipItems.push(await genItem('jingxi5'));
     }
     if (action === 'onlystore') {
       storeItems.push('tuzi5');
-      storeItems.push('jingxi5');
+      // storeItems.push('jingxi5');
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
@@ -1209,9 +1209,9 @@ const main = async () => {
       await doubleClick(i, demon3.y);
     }
 
-    // await doubleClick(1, 1);
-    // await doubleClick(2, 1);
-    // await doubleClick(5, 3);
+    // await doubleClick(1, 3);
+    // await doubleClick(2, 3);
+    // await doubleClick(3, 3);
 
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 10; i++) {
@@ -1223,7 +1223,7 @@ const main = async () => {
         // await doubleClick(factoryX, factoryY);
       }
 
-      const clickTime = new Date('2023-04-02T08:00:00.000').getTime();
+      const clickTime = new Date('2023-05-15T05:30:00.000').getTime();
       if (Date.now() > clickTime) {
         // await doubleClick(factoryX, factoryY);
 
@@ -1231,7 +1231,8 @@ const main = async () => {
           // reInit = true;
           // sellItems.pop();
         }
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 10; i++) {
+          // await doubleClick(factoryX, factoryY);
           // await doubleClick(factoryX + 1, factoryY);
           // await doubleClick(factoryX + 2, factoryY);
         }
