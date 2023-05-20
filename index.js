@@ -46,7 +46,8 @@ const COMPARE_Y = 5;
 const FACTORY_X = 1;
 const FACTORY_Y = 4;
 
-const DEBUG = false;
+const DEBUG_LV1 = false;
+const DEBUG_LV2 = true;
 
 let ONLY_STORE = false;
 
@@ -846,7 +847,7 @@ const initItems = async () => {
     }
   }
 
-  if (DEBUG) {
+  if (DEBUG_LV1 || DEBUG_LV2) {
     const debugDir = existsSync('./debug');
     if (!debugDir) {
       mkdirSync('./debug');
@@ -874,7 +875,7 @@ const compare = async () => {
 
   const now = Date.now();
 
-  if (DEBUG) {
+  if (DEBUG_LV2) {
     sharp(imgName).toFile(`./debug/${now}.png`);
   }
 
@@ -914,7 +915,7 @@ const compare = async () => {
       }
 
       if (isItem) {
-        if (DEBUG) {
+        if (DEBUG_LV1) {
           sharp(imgName).extract({ left, top, width, height }).toFile(`./debug/${now}-${x}-${y}.png`);
         }
         curItems.push(item);
