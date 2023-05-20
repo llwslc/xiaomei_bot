@@ -580,21 +580,19 @@ const upStore = async () => {
       if (await isStoreUp()) {
         if (noUp) {
           await click(itemDownX, itemDownY);
-          break;
-        }
-
-        await swipe(itemBoardX[0], itemBoardY[0], itemBoardX[1], itemBoardY[1]);
-        await sleep();
-        await capture();
-        if (await upStoreItem()) {
-          await sleep();
-          await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
-          await sleep();
-          await click(itemUpX, itemUpY);
         } else {
-          await click(itemDownX, itemDownY);
-          noUp = true;
-          break;
+          await swipe(itemBoardX[0], itemBoardY[0], itemBoardX[1], itemBoardY[1]);
+          await sleep();
+          await capture();
+          if (await upStoreItem()) {
+            await sleep();
+            await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
+            await sleep();
+            await click(itemUpX, itemUpY);
+          } else {
+            await click(itemDownX, itemDownY);
+            noUp = true;
+          }
         }
       } else {
         await click(itemDownX, itemDownY);
