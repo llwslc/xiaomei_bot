@@ -1,5 +1,5 @@
 const { exec } = require('child_process');
-const { unlinkSync } = require('fs');
+const { unlinkSync, existsSync, mkdirSync } = require('fs');
 const sharp = require('sharp');
 const Jimp = require('jimp');
 const log4js = require('log4js');
@@ -46,6 +46,8 @@ const COMPARE_Y = 5;
 const FACTORY_X = 1;
 const FACTORY_Y = 4;
 
+const DEBUG = false;
+
 let ONLY_STORE = false;
 
 const sleep = (ms = 1000) => {
@@ -77,7 +79,7 @@ const sameAsync = async (img1, img2, debug = false) => {
   }
 
   debug && console.log(dist, diff.percent);
-  return dist < 0.15 && diff.percent < 0.1;
+  return dist < 0.15 && diff.percent < 0.12;
 };
 
 const exactSameAsync = async (img1, img2, debug = false) => {
@@ -114,9 +116,9 @@ const click = async (x, y, times = 1) => {
   }
 };
 
-const swipe = async (x1, y1, x2, y2) => {
+const swipe = async (x1, y1, x2, y2, speed = 1000) => {
   const method = 'swipe';
-  const time = Math.floor(Math.random() * 1000) + 500;
+  const time = Math.floor(Math.random() * speed) + 500;
   const shell = `${adbPath} shell input touchscreen swipe ${Math.floor(x1)} ${Math.floor(y1)} ${Math.floor(x2)} ${Math.floor(y2)} ${time}`;
   await execAsync(method, shell);
 };
@@ -840,9 +842,23 @@ const initItems = async () => {
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
-      noswipItems.push(await genItem('tuzi8'));
+      noswipItems.push(await genItem('tuzi5'));
     }
   }
+
+  if (DEBUG) {
+    const debugDir = existsSync('./debug');
+    if (!debugDir) {
+      mkdirSync('./debug');
+    }
+  }
+};
+
+const cleanStar = async () => {
+  const { x, y } = getImgClickPos(1, 4);
+  await swipe(x, y, x + 40, y + 40, 2000);
+  await sleep();
+  await capture();
 };
 
 const compare = async () => {
@@ -855,6 +871,12 @@ const compare = async () => {
   const height = iconHeight;
 
   const curItems = [];
+
+  const now = Date.now();
+
+  if (DEBUG) {
+    sharp(imgName).toFile(`./debug/${now}.png`);
+  }
 
   for (let y = startIndexY; y <= iconLenY; y++) {
     for (let x = startIndexX; x <= iconLenX; x++) {
@@ -892,6 +914,9 @@ const compare = async () => {
       }
 
       if (isItem) {
+        if (DEBUG) {
+          sharp(imgName).extract({ left, top, width, height }).toFile(`./debug/${now}-${x}-${y}.png`);
+        }
         curItems.push(item);
       }
     }
@@ -1002,6 +1027,22 @@ const debugCheck2 = async (x, y, name) => {
 
   const same = await sameAsync({ width, height, data: jImg1 }, { width, height, data: jImg2 }, true);
   console.log(same);
+};
+
+const debugCheck3 = async () => {
+  const width = iconWidth;
+  const height = iconHeight;
+
+  const jImg1 = await sharp(`./tools/test1.png`).raw().toBuffer();
+  const jImg2 = await sharp(`./tools/test2.png`).raw().toBuffer();
+  const jImg3 = await sharp(`./tools/tuzi5.png`).raw().toBuffer();
+
+  const same1 = await sameAsync({ width, height, data: jImg1 }, { width, height, data: jImg2 }, true);
+  console.log(same1);
+  const same2 = await sameAsync({ width, height, data: jImg2 }, { width, height, data: jImg3 }, true);
+  console.log(same2);
+  const same3 = await sameAsync({ width, height, data: jImg1 }, { width, height, data: jImg3 }, true);
+  console.log(same3);
 };
 
 const debugCompare = async () => {
@@ -1213,6 +1254,8 @@ const main = async () => {
     // await doubleClick(2, 3);
     // await doubleClick(3, 3);
 
+    await sleep(5000);
+
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 10; i++) {
         await doubleClick(factoryX, factoryY);
@@ -1250,7 +1293,10 @@ const main = async () => {
     await sleep();
     await capture();
     await sleep();
-    await compare();
+    if (await isGame()) {
+      await cleanStar();
+      await compare();
+    }
   } else {
     await home();
     await sleep();
@@ -1302,6 +1348,9 @@ switch (action) {
     break;
   case 'debug2':
     debugCheck2(6, 8, 'jiasu2');
+    break;
+  case 'debug3':
+    debugCheck3();
     break;
   case 'debugStore':
     debugStore();
