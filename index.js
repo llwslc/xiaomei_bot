@@ -875,12 +875,13 @@ const compare = async () => {
 
   const compareImg = './imgCompare.png';
 
+  await cleanStar();
   await sharp(imgName).toFile(compareImg);
 
   for (let y = startIndexY; y <= iconLenY; y++) {
     for (let x = startIndexX; x <= iconLenX; x++) {
       const { x: left, y: top } = getImgPos(x, y);
-      const data = await sharp(imgName).extract({ left, top, width, height }).raw().toBuffer();
+      const data = await sharp(compareImg).extract({ left, top, width, height }).raw().toBuffer();
       const item = { x, y, width, height, data };
       let isItem = true;
       for (let i = 0; i < noswipItems.length; i++) {
@@ -914,7 +915,7 @@ const compare = async () => {
 
       if (isItem) {
         if (DEBUG_LV1) {
-          sharp(imgName).extract({ left, top, width, height }).toFile(`./debug/${now}-${x}-${y}.png`);
+          sharp(compareImg).extract({ left, top, width, height }).toFile(`./debug/${now}-${x}-${y}.png`);
         }
         curItems.push(item);
       }
@@ -922,7 +923,7 @@ const compare = async () => {
   }
 
   if (DEBUG_LV2) {
-    sharp(imgName).toFile(`./debug/${now}.png`);
+    sharp(compareImg).toFile(`./debug/${now}.png`);
   }
 
   const swipeItems = [];
@@ -1297,7 +1298,6 @@ const main = async () => {
     await capture();
     await sleep();
     if (await isGame()) {
-      await cleanStar();
       await compare();
     }
   } else {
