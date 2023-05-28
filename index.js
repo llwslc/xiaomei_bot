@@ -37,7 +37,7 @@ let doubleClickItems = [];
 let storeItems = [];
 let luckyLevelImg = '';
 const demon1 = { x: 1, y: 1, xLen: 2 };
-const demon2 = { x: 1, y: 2, xLen: iconLenX };
+const demon2 = { x: 4, y: 2, xLen: iconLenX };
 const demon3 = { x: 4, y: 3, xLen: iconLenX };
 
 const COMPARE_X = 1;
@@ -46,7 +46,7 @@ const COMPARE_Y = 5;
 const FACTORY_X = 1;
 const FACTORY_Y = 4;
 
-const DEBUG_LV1 = false;
+const DEBUG_LV1 = true;
 const DEBUG_LV2 = true;
 
 let ONLY_STORE = false;
@@ -873,9 +873,9 @@ const compare = async () => {
 
   const now = Date.now();
 
-  if (DEBUG_LV2) {
-    sharp(imgName).toFile(`./debug/${now}.png`);
-  }
+  const compareImg = './imgCompare.png';
+
+  await sharp(imgName).toFile(compareImg);
 
   for (let y = startIndexY; y <= iconLenY; y++) {
     for (let x = startIndexX; x <= iconLenX; x++) {
@@ -919,6 +919,10 @@ const compare = async () => {
         curItems.push(item);
       }
     }
+  }
+
+  if (DEBUG_LV2) {
+    sharp(imgName).toFile(`./debug/${now}.png`);
   }
 
   const swipeItems = [];
@@ -1265,7 +1269,7 @@ const main = async () => {
         // await doubleClick(factoryX, factoryY);
       }
 
-      const clickTime = new Date('2023-05-15T05:30:00.000').getTime();
+      const clickTime = new Date('2023-05-25T05:00:00.000').getTime();
       if (Date.now() > clickTime) {
         // await doubleClick(factoryX, factoryY);
 
