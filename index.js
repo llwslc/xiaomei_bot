@@ -80,7 +80,7 @@ const sameAsync = async (img1, img2, debug = false) => {
   }
 
   debug && console.log(dist, diff.percent);
-  return dist < 0.15 && diff.percent < 0.12;
+  return dist < 0.15 && diff.percent < 0.1;
 };
 
 const exactSameAsync = async (img1, img2, debug = false) => {
