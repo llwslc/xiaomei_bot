@@ -46,8 +46,8 @@ const COMPARE_Y = 5;
 const FACTORY_X = 1;
 const FACTORY_Y = 4;
 
-const DEBUG_LV1 = true;
-const DEBUG_LV2 = true;
+const DEBUG_LV1 = false;
+const DEBUG_LV2 = false;
 
 let ONLY_STORE = false;
 
