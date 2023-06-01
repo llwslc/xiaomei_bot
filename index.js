@@ -35,7 +35,6 @@ let noswipItems = [];
 let sellItems = [];
 let doubleClickItems = [];
 let storeItems = [];
-let luckyLevelImg = '';
 const demon1 = { x: 1, y: 1, xLen: 2 };
 const demon2 = { x: 4, y: 2, xLen: iconLenX };
 const demon3 = { x: 4, y: 3, xLen: iconLenX };
@@ -619,6 +618,26 @@ const orderRightAction = async () => {
   await click(clickX, clickY);
 };
 
+const luckyAdAction = async () => {
+  const x = 410;
+  const y = 1465;
+  const width = 259;
+  const height = 70;
+
+  const distImg = './lv-ad.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    return false;
+  }
+
+  return true;
+};
+
 const luckyAction = async () => {
   const x = 355;
   const y = 1155;
@@ -631,12 +650,9 @@ const luckyAction = async () => {
   await capture();
   await sleep(500);
 
-  if (!luckyLevelImg) {
-    const distImg = './lv2-3.png';
-    luckyLevelImg = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  }
+  const distImg = './lv2-3.png';
 
-  const img1 = luckyLevelImg;
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
   const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
 
   const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
@@ -648,6 +664,11 @@ const luckyAction = async () => {
     logger.info('lv2');
     await click(clickX, clickY);
     await sleep();
+    return;
+  }
+
+  if (await luckyAdAction()) {
+    logger.info('lv ad');
     return;
   }
 
