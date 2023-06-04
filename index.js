@@ -36,7 +36,7 @@ let sellItems = [];
 let doubleClickItems = [];
 let storeItems = [];
 const demon1 = { x: 1, y: 1, xLen: 2 };
-const demon2 = { x: 4, y: 2, xLen: iconLenX };
+const demon2 = { x: 1, y: 2, xLen: iconLenX };
 const demon3 = { x: 4, y: 3, xLen: iconLenX };
 
 const COMPARE_X = 1;
@@ -624,7 +624,7 @@ const luckyAdAction = async () => {
   const width = 259;
   const height = 70;
 
-  const distImg = './lv-ad.png';
+  const distImg = './lv-ad1.png';
 
   const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
   const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
@@ -647,6 +647,9 @@ const luckyAction = async () => {
   const clickX = 400;
   const clickY = 1500;
 
+  const closeX = 540;
+  const closeY = 1720;
+
   await capture();
   await sleep(500);
 
@@ -658,17 +661,15 @@ const luckyAction = async () => {
   const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
   if (same) {
-    const clickX = 540;
-    const clickY = 1720;
-
     logger.info('lv2');
-    await click(clickX, clickY);
+    await click(closeX, closeY);
     await sleep();
     return;
   }
 
   if (await luckyAdAction()) {
     logger.info('lv ad');
+    await click(closeX, closeY);
     return;
   }
 
