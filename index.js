@@ -535,6 +535,33 @@ const upStoreItem = async () => {
   return false;
 };
 
+const isUpStoreTip = async () => {
+  logger.info('check upStore Tip');
+
+  const x = 400;
+  const y = 1255;
+  const width = 250;
+  const height = 80;
+
+  const clickX = 500;
+  const clickY = 1300;
+
+  await capture();
+
+  const distImg = './store/imgTip.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isUpStoreTip');
+    await click(clickX, clickY);
+  }
+  return same;
+};
+
 const upStore = async () => {
   logger.info('up store');
 
@@ -588,6 +615,9 @@ const upStore = async () => {
             await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
             await sleep();
             await click(itemUpX, itemUpY);
+            await sleep();
+
+            await isUpStoreTip();
           } else {
             await click(itemDownX, itemDownY);
             noUp = true;
