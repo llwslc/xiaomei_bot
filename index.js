@@ -883,12 +883,12 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push('tuzi5');
-      noswipItems.push(await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
+      storeItems.push('tuzi5', 'xiari5');
+      noswipItems.push(await genItem('xiari5'), await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
       // noswipItems.push(await genItem('jingxi5'));
     }
     if (action === 'onlystore') {
-      storeItems.push('tuzi5');
+      storeItems.push('tuzi5', 'xiari5');
       // storeItems.push('jingxi5');
       ONLY_STORE = true;
     }
