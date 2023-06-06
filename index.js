@@ -883,12 +883,12 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push('tuzi5', 'xiari5');
-      noswipItems.push(await genItem('xiari5'), await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
+      storeItems.push('tuzi5');
+      noswipItems.push(await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
       // noswipItems.push(await genItem('jingxi5'));
     }
     if (action === 'onlystore') {
-      storeItems.push('tuzi5', 'xiari5');
+      storeItems.push('tuzi5');
       // storeItems.push('jingxi5');
       ONLY_STORE = true;
     }
@@ -938,6 +938,7 @@ const compare = async () => {
       let isItem = true;
       for (let i = 0; i < noswipItems.length; i++) {
         const same = await sameAsync(item, noswipItems[i]);
+
         if (same) {
           isItem = false;
         }
@@ -1091,14 +1092,14 @@ const debugCheck3 = async () => {
 
   const jImg1 = await sharp(`./tools/test1.png`).raw().toBuffer();
   const jImg2 = await sharp(`./tools/test2.png`).raw().toBuffer();
-  const jImg3 = await sharp(`./tools/tuzi5.png`).raw().toBuffer();
+  const jImg3 = await sharp(`./tools/xiari5.png`).raw().toBuffer();
 
   const same1 = await sameAsync({ width, height, data: jImg1 }, { width, height, data: jImg2 }, true);
-  console.log(same1);
+  console.log('1-2', same1);
   const same2 = await sameAsync({ width, height, data: jImg2 }, { width, height, data: jImg3 }, true);
-  console.log(same2);
+  console.log('2-3', same2);
   const same3 = await sameAsync({ width, height, data: jImg1 }, { width, height, data: jImg3 }, true);
-  console.log(same3);
+  console.log('1-3', same3);
 };
 
 const debugCompare = async () => {
