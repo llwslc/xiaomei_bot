@@ -36,8 +36,8 @@ let sellItems = [];
 let doubleClickItems = [];
 let storeItems = [];
 const demon1 = { x: 1, y: 1, xLen: 2 };
-const demon2 = { x: 1, y: 2, xLen: iconLenX };
-const demon3 = { x: 4, y: 3, xLen: iconLenX };
+const demon2 = { x: 1, y: 2, xLen: iconLenX - 1 };
+const demon3 = { x: 4, y: 3, xLen: iconLenX - 1 };
 
 const COMPARE_X = 1;
 const COMPARE_Y = 5;
