@@ -1202,6 +1202,7 @@ let reInit = false;
 
 const teamAd = async () => {
   logger.info('team ad');
+
   const isTeam1 = async () => {
     logger.info('check team1');
 
@@ -1260,6 +1261,35 @@ const teamAd = async () => {
     return same;
   };
 
+  const isTeam3 = async () => {
+    logger.info('check team3');
+
+    const x = 830;
+    const y = 1804;
+    const width = 125;
+    const height = 50;
+
+    const clickX = 900;
+    const clickY = 1830;
+
+    await capture();
+    await sleep(500);
+
+    const distImg = './imgTeam3.png';
+
+    const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+    const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+    if (same) {
+      logger.info('team3');
+      await click(clickX, clickY);
+    }
+
+    return same;
+  };
+
   if (await isTeam1()) {
     setTimeout(() => {
       teamAd();
@@ -1273,6 +1303,8 @@ const teamAd = async () => {
     }, 10000);
     return;
   }
+
+  await isTeam3();
 
   setTimeout(() => {
     teamAd();
