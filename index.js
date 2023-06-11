@@ -884,12 +884,13 @@ const initItems = async () => {
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
       storeItems.push('tuzi5');
+      storeItems.push('jingxi5');
       noswipItems.push(await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
       // noswipItems.push(await genItem('jingxi5'));
     }
     if (action === 'onlystore') {
       storeItems.push('tuzi5');
-      // storeItems.push('jingxi5');
+      storeItems.push('jingxi5');
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
@@ -1199,6 +1200,85 @@ const debugStore = async () => {
 let factoryFlag = true;
 let reInit = false;
 
+const teamAd = async () => {
+  logger.info('team ad');
+  const isTeam1 = async () => {
+    logger.info('check team1');
+
+    const x = 830;
+    const y = 1804;
+    const width = 125;
+    const height = 50;
+
+    const clickX = 900;
+    const clickY = 1830;
+
+    await capture();
+    await sleep(500);
+
+    const distImg = './imgTeam1.png';
+
+    const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+    const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+    if (same) {
+      logger.info('team1');
+      await click(clickX, clickY);
+    }
+
+    return same;
+  };
+
+  const isTeam2 = async () => {
+    logger.info('check team2');
+
+    const x = 0;
+    const y = 128;
+    const width = 80;
+    const height = 200;
+
+    const clickX = 40;
+    const clickY = 160;
+
+    await capture();
+    await sleep(500);
+
+    const distImg = './imgTeam2.png';
+
+    const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+    const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+    if (same) {
+      logger.info('team2');
+      await click(clickX, clickY);
+    }
+
+    return same;
+  };
+
+  if (await isTeam1()) {
+    setTimeout(() => {
+      teamAd();
+    }, 30000);
+    return;
+  }
+
+  if (await isTeam2()) {
+    setTimeout(() => {
+      teamAd();
+    }, 10000);
+    return;
+  }
+
+  setTimeout(() => {
+    teamAd();
+  }, 1000);
+};
+
 const main = async () => {
   const linked = await devices();
   if (!linked) {
@@ -1385,6 +1465,9 @@ switch (action) {
   case 'nostore':
     logger.info(`aciotn ${action}`);
     main();
+    break;
+  case 'team':
+    teamAd();
     break;
   case 'cap':
     capture();
