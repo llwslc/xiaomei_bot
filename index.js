@@ -679,19 +679,23 @@ const luckyAction = async () => {
   await capture();
   await sleep(500);
 
-  const distImg = './lv2-3.png';
+  const isLucky = async (distImg, info) => {
+    const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
 
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
-  const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+    if (same) {
+      logger.info(info);
+      await click(closeX, closeY);
+      await sleep();
+    }
 
-  if (same) {
-    logger.info('lv2');
-    await click(closeX, closeY);
-    await sleep();
-    return;
-  }
+    return same;
+  };
+
+  if (await isLucky('./lv2-3.png', 'lv2')) return;
+  if (await isLucky('./lv3-4.png', 'lv3')) return;
 
   if (await luckyAdAction()) {
     logger.info('lv ad');
@@ -699,7 +703,7 @@ const luckyAction = async () => {
     return;
   }
 
-  logger.info('> lv2');
+  logger.info('lucky');
   await click(clickX, clickY);
 };
 
