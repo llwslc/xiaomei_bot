@@ -661,11 +661,7 @@ const luckyAdAction = async () => {
 
   const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
-  if (same) {
-    return false;
-  }
-
-  return true;
+  return same;
 };
 
 const luckyAction = async () => {
