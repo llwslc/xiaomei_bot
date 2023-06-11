@@ -1290,6 +1290,35 @@ const teamAd = async () => {
     return same;
   };
 
+  const isTeam4 = async () => {
+    logger.info('check team4');
+
+    const x = 830;
+    const y = 1804;
+    const width = 125;
+    const height = 50;
+
+    const clickX = 900;
+    const clickY = 1830;
+
+    await capture();
+    await sleep(500);
+
+    const distImg = './imgTeam4.png';
+
+    const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+    const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+    if (same) {
+      logger.info('team4');
+      await click(clickX, clickY);
+    }
+
+    return same;
+  };
+
   if (await isTeam1()) {
     setTimeout(() => {
       teamAd();
@@ -1305,6 +1334,8 @@ const teamAd = async () => {
   }
 
   await isTeam3();
+
+  await isTeam4();
 
   setTimeout(() => {
     teamAd();
