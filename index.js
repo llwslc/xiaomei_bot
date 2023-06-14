@@ -387,6 +387,7 @@ const isGame = async () => {
     logger.info('inTheGame');
   } else {
     logger.error('notInGame');
+    sharp(imgName).toFile(`./debug/notInGame-${now}.png`);
   }
   return same;
 };
@@ -898,11 +899,9 @@ const initItems = async () => {
     }
   }
 
-  if (DEBUG_LV1 || DEBUG_LV2) {
-    const debugDir = existsSync('./debug');
-    if (!debugDir) {
-      mkdirSync('./debug');
-    }
+  const debugDir = existsSync('./debug');
+  if (!debugDir) {
+    mkdirSync('./debug');
   }
 };
 
