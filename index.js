@@ -387,7 +387,7 @@ const isGame = async () => {
     logger.info('inTheGame');
   } else {
     logger.error('notInGame');
-    sharp(imgName).toFile(`./debug/notInGame-${now}.png`);
+    sharp(imgName).toFile(`./debug/notInGame-${Date.now()}.png`);
   }
   return same;
 };
