@@ -886,7 +886,7 @@ const initItems = async () => {
       // sellItems.push(await genItem('fengzheng1'));
       storeItems.push('tuzi5');
       storeItems.push('xiari5');
-      noswipItems.push(await genItem('tuzi5'), await genItem('tuzi6'), await genItem('tuzi7'), await genItem('tuzi8'));
+      noswipItems.push(await genItem('tuzi5'));
       // noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
