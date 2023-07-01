@@ -886,16 +886,20 @@ const initItems = async () => {
       // sellItems.push(await genItem('fengzheng1'));
       storeItems.push('tuzi5');
       storeItems.push('xiari5');
+      storeItems.push('baicai5');
       noswipItems.push(await genItem('tuzi5'));
+      noswipItems.push(await genItem('baicai5'));
       // noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
       storeItems.push('tuzi5');
       storeItems.push('xiari5');
+      storeItems.push('baicai5');
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
       noswipItems.push(await genItem('tuzi5'));
+      noswipItems.push(await genItem('baicai5'));
     }
   }
 
@@ -1443,7 +1447,7 @@ const main = async () => {
       // await doubleClick(i, demon1.y);
     }
     for (let i = demon2.x; i <= demon2.xLen; i++) {
-      await doubleClick(i, demon2.y);
+      // await doubleClick(i, demon2.y);
     }
     for (let i = demon3.x; i <= demon3.xLen; i++) {
       await doubleClick(i, demon3.y);
