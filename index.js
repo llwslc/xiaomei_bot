@@ -1462,7 +1462,11 @@ const main = async () => {
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 10; i++) {
         await doubleClick(factoryX, factoryY);
-        // await doubleClick(factoryX + 1, factoryY);
+      }
+      for (let i = 0; i < 10; i++) {
+        await doubleClick(factoryX + 1, factoryY);
+      }
+      for (let i = 0; i < 10; i++) {
         // await doubleClick(factoryX + 2, factoryY);
       }
       for (let i = 0; i < 3; i++) {
