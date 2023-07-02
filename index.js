@@ -168,6 +168,56 @@ const isLucky = async () => {
   return same;
 };
 
+const isGoods = async () => {
+  logger.info('checking goods');
+
+  const x = 430;
+  const y = 1450;
+  const width = 200;
+  const height = 70;
+
+  const clickX = 540;
+  const clickY = 1790;
+
+  const distImg = './imgGoods.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isGoods');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
+const isAuction = async () => {
+  logger.info('checking auction');
+
+  const x = 400;
+  const y = 1980;
+  const width = 200;
+  const height = 70;
+
+  const clickX = 1000;
+  const clickY = 1660;
+
+  const distImg = './imgAuction.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isAuction');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
 const isEmpty = async () => {
   logger.info('checking empty');
 
@@ -1394,6 +1444,16 @@ const main = async () => {
     await sleep();
   }
 
+  if (!refresh && (await isGoods())) {
+    refresh = true;
+    await sleep();
+  }
+
+  if (!refresh && (await isAuction())) {
+    refresh = true;
+    await sleep();
+  }
+
   if (!refresh && (await isUpgrade())) {
     refresh = true;
     await sleep();
@@ -1461,7 +1521,7 @@ const main = async () => {
 
     if (factoryFlag && !(await isZero())) {
       for (let i = 0; i < 10; i++) {
-        await doubleClick(factoryX, factoryY);
+        // await doubleClick(factoryX, factoryY);
       }
       for (let i = 0; i < 10; i++) {
         await doubleClick(factoryX + 1, factoryY);
