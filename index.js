@@ -243,6 +243,36 @@ const isEmpty = async () => {
   return same;
 };
 
+const isEnergyAd = async () => {
+  logger.info('checking energy ad');
+
+  const x = 350;
+  const y = 800;
+  const width = 400;
+  const height = 300;
+
+  const clickX1 = 400;
+  const clickY1 = 1793;
+
+  const clickX2 = 540;
+  const clickY2 = 1900;
+
+  const distImg = './imgEnergyAd.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isEnergyAd');
+    click(clickX1, clickY1);
+    await sleep();
+    click(clickX2, clickY2);
+  }
+  return same;
+};
+
 const isUpgrade = async () => {
   logger.info('checking upgrade');
 
@@ -1556,10 +1586,17 @@ const main = async () => {
 
     await sleep();
     await capture();
-    await isEmpty();
     await sleep();
-    await capture();
-    await sleep();
+    if (await isEmpty()) {
+      await sleep();
+      await capture();
+      await sleep();
+    }
+    if (await isEnergyAd()) {
+      await sleep();
+      await capture();
+      await sleep();
+    }
     if (await isGame()) {
       await compare();
     }
