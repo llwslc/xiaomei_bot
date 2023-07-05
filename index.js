@@ -1543,9 +1543,9 @@ const main = async () => {
       await doubleClick(i, demon3.y);
     }
 
-    // await doubleClick(1, 3);
-    // await doubleClick(2, 3);
-    // await doubleClick(3, 3);
+    // await doubleClick(4, 2);
+    // await doubleClick(5, 2);
+    // await doubleClick(6, 2);
 
     await sleep(5000);
 
