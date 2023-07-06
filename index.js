@@ -246,10 +246,10 @@ const isEmpty = async () => {
 const isEnergyAd = async () => {
   logger.info('checking energy ad');
 
-  const x = 350;
-  const y = 800;
-  const width = 400;
-  const height = 300;
+  const x = 440;
+  const y = 1555;
+  const width = 200;
+  const height = 80;
 
   const clickX1 = 400;
   const clickY1 = 1793;
@@ -1563,7 +1563,7 @@ const main = async () => {
         // await doubleClick(factoryX, factoryY);
       }
 
-      const clickTime = new Date('2023-05-25T05:00:00.000').getTime();
+      const clickTime = new Date('2023-07-06T04:00:00.000').getTime();
       if (Date.now() > clickTime) {
         // await doubleClick(factoryX, factoryY);
 
