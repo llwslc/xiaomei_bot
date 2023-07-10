@@ -717,6 +717,50 @@ const upStore = async () => {
 };
 // end store
 
+const downItem = async () => {
+  logger.info('up store');
+
+  const itemX = 520;
+  const itemY = 1320;
+
+  const item1X = 254;
+  const item1Y = 630;
+  const itemPriceX = [540, 950];
+  const itemPriceY = [1525, 1525];
+  const itemUpX = 540;
+  const itemUpY = 1660;
+
+  await sleep();
+  await capture();
+
+  await click(itemX, itemY);
+
+  if (await isStoreDown()) {
+    await click(itemX, itemY);
+    setTimeout(() => {
+      downItem();
+    }, 1000);
+    return;
+  } else {
+    if (await isStoreUp()) {
+      await click(item1X, item1Y);
+
+      await sleep();
+      await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
+      await sleep();
+      await click(itemUpX, itemUpY);
+      await sleep();
+
+      await isUpStoreTip();
+    }
+
+    setTimeout(() => {
+      downItem();
+    }, 1000);
+    return;
+  }
+};
+
 const orderLeftAction = async () => {
   const clickX = 360;
   const clickY = 500;
@@ -1671,6 +1715,9 @@ switch (action) {
     break;
   case 'team':
     teamAd();
+    break;
+  case 'down':
+    downItem();
     break;
   case 'cap':
     capture();
