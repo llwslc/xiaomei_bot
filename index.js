@@ -737,10 +737,6 @@ const downItem = async () => {
 
   if (await isStoreDown()) {
     await click(itemX, itemY);
-    setTimeout(() => {
-      downItem();
-    }, 1000);
-    return;
   } else {
     if (await isStoreUp()) {
       await click(item1X, item1Y);
@@ -753,12 +749,11 @@ const downItem = async () => {
 
       await isUpStoreTip();
     }
-
-    setTimeout(() => {
-      downItem();
-    }, 1000);
-    return;
   }
+
+  setTimeout(async () => {
+    await downItem();
+  }, 1000);
 };
 
 const orderLeftAction = async () => {
