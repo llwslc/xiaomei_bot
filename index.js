@@ -348,6 +348,31 @@ const isAdvertise = async () => {
   return same;
 };
 
+const isAd1 = async () => {
+  logger.info('checking ad1');
+
+  const x = 510;
+  const y = 1940;
+  const width = 60;
+  const height = 60;
+
+  const clickX = 540;
+  const clickY = 1970;
+
+  const distImg = './imgAd1.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isAd1');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
 const isError = async () => {
   logger.info('checking error');
 
@@ -1535,6 +1560,11 @@ const main = async () => {
       factoryFlag = true;
     }, 5 * 60 * 1000);
 
+    await sleep();
+  }
+
+  if (!refresh && (await isAd1())) {
+    refresh = true;
     await sleep();
   }
 
