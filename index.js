@@ -247,18 +247,18 @@ const isEmpty = async () => {
 const isEnergyAd = async () => {
   logger.info('checking energy ad');
 
-  const x = 440;
-  const y = 1555;
+  const x = 420;
+  const y = 1515;
   const width = 200;
   const height = 80;
 
-  const clickX1 = 400;
-  const clickY1 = 1793;
+  const clickX1 = 380;
+  const clickY1 = 1750;
 
   const clickX2 = 540;
-  const clickY2 = 1900;
+  const clickY2 = 1890;
 
-  const distImg = './imgEnergyAd.png';
+  const distImg = './imgEnergyAd2.png';
 
   const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
   const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
