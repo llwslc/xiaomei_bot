@@ -87,6 +87,7 @@ const exactSameAsync = async (img1, img2, debug = false) => {
   const jImg2 = await Jimp.read(img2);
   const diff = Jimp.diff(jImg1, jImg2, 0);
 
+  debug && console.log(dist, diff.percent);
   return diff.percent < 0.1;
 };
 
@@ -1411,13 +1412,13 @@ const teamAd = async () => {
   const isTeam3 = async () => {
     logger.info('check team3');
 
-    const x = 800;
+    const x = 480;
     const y = 2055;
     const width = 200;
     const height = 70;
 
-    const clickX = 40;
-    const clickY = 160;
+    const clickX = 80;
+    const clickY = 150;
 
     await capture();
     await sleep(500);
