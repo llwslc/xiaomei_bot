@@ -1031,6 +1031,7 @@ const initItems = async () => {
       // sellItems.push(await genItem('fengzheng1'));
       storeItems.push('tuzi5');
       storeItems.push('xiari5');
+      storeItems.push('qishou5');
       noswipItems.push(await genItem('tuzi5'));
       noswipItems.push(await genItem('qishou5'));
       // noswipItems.push(await genItem('xiari5'));
@@ -1038,6 +1039,7 @@ const initItems = async () => {
     if (action === 'onlystore') {
       storeItems.push('tuzi5');
       storeItems.push('xiari5');
+      storeItems.push('qishou5');
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
