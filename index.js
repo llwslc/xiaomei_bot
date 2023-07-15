@@ -1031,20 +1031,18 @@ const initItems = async () => {
       // sellItems.push(await genItem('fengzheng1'));
       storeItems.push('tuzi5');
       storeItems.push('xiari5');
-      storeItems.push('baicai5');
       noswipItems.push(await genItem('tuzi5'));
-      noswipItems.push(await genItem('baicai5'));
+      noswipItems.push(await genItem('qishou5'));
       // noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
       storeItems.push('tuzi5');
       storeItems.push('xiari5');
-      storeItems.push('baicai5');
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
       noswipItems.push(await genItem('tuzi5'));
-      noswipItems.push(await genItem('baicai5'));
+      noswipItems.push(await genItem('qishou5'));
     }
   }
 
