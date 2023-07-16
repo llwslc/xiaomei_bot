@@ -624,22 +624,22 @@ const upStoreItem = async () => {
         const distItem = {
           width,
           height,
-          data: await sharp(`./store/items/${storeItems[s]}-0.png`).extract({ left: x, top: y, width, height }).raw().toBuffer()
+          data: await sharp(`./store/items/${storeItems[s].name}-0.png`).extract({ left: x, top: y, width, height }).raw().toBuffer()
         };
         if (await sameAsync(item, distItem)) {
           await click(x + width / 2, y + height / 2);
-          return true;
+          return { same: true, ...storeItems[s] };
         }
 
-        distItem.data = await sharp(`./store/items/${storeItems[s]}-1.png`).extract({ left: x, top: y, width, height }).raw().toBuffer();
+        distItem.data = await sharp(`./store/items/${storeItems[s].name}-1.png`).extract({ left: x, top: y, width, height }).raw().toBuffer();
         if (await sameAsync(item, distItem)) {
           await click(x + width / 2, y + height / 2);
-          return true;
+          return { same: true, ...storeItems[s] };
         }
       }
     }
   }
-  return false;
+  return { same: false };
 };
 
 const isUpStoreTip = async () => {
@@ -684,7 +684,7 @@ const upStore = async () => {
 
   const itemBoardX = [250, 250];
   const itemBoardY = [1190, 100];
-  const itemPriceX = [540, 950];
+  const itemPriceX = [540, 100, 950];
   const itemPriceY = [1525, 1525];
   const itemUpX = 540;
   const itemUpY = 1660;
@@ -717,9 +717,10 @@ const upStore = async () => {
           await swipe(itemBoardX[0], itemBoardY[0], itemBoardX[1], itemBoardY[1]);
           await sleep();
           await capture();
-          if (await upStoreItem()) {
+          const findItem = await upStoreItem();
+          if (findItem.same) {
             await sleep();
-            await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[1], itemPriceY[1]);
+            await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[findItem.max ? 2 : 1], itemPriceY[1]);
             await sleep();
             await click(itemUpX, itemUpY);
             await sleep();
@@ -1029,17 +1030,17 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push('tuzi5');
-      storeItems.push('xiari5');
-      storeItems.push('qishou5');
+      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'xiari5', max: true });
+      storeItems.push({ name: 'qishou5', max: false });
       noswipItems.push(await genItem('tuzi5'));
       noswipItems.push(await genItem('qishou5'));
       // noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push('tuzi5');
-      storeItems.push('xiari5');
-      storeItems.push('qishou5');
+      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'xiari5', max: true });
+      storeItems.push({ name: 'qishou5', max: false });
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
@@ -1321,8 +1322,7 @@ const debugStore = async () => {
   const itemXLen = 4;
   const itemYLen = 3;
 
-  storeItems = ['tuzi5'];
-
+  storeItems = { name: 'tuzi5', max: true };
   for (let i = 0; i < itemXLen; i++) {
     const width = itemWidth;
     const height = itemHeight;
@@ -1333,9 +1333,9 @@ const debugStore = async () => {
       await sharp(imgName).extract({ left: x, top: y, width, height }).toFile(`./store/items/temp/${i}-${j}.png`);
 
       for (let s = 0; s < storeItems.length; s++) {
-        const path0 = `./store/items/${storeItems[s]}-0.png`;
+        const path0 = `./store/items/${storeItems[s].name}-0.png`;
         await sharp(path0).extract({ left: x, top: y, width, height }).toFile(`./store/items/temp/d0-${i}-${j}.png`);
-        const path1 = `./store/items/${storeItems[s]}-1.png`;
+        const path1 = `./store/items/${storeItems[s].name}-1.png`;
         await sharp(path1).extract({ left: x, top: y, width, height }).toFile(`./store/items/temp/d1-${i}-${j}.png`);
       }
     }
