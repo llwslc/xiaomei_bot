@@ -719,8 +719,10 @@ const upStore = async () => {
           await capture();
           const findItem = await upStoreItem();
           if (findItem.same) {
-            await sleep();
-            await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[findItem.max ? 2 : 1], itemPriceY[1]);
+            if (!findItem.pass) {
+              await sleep();
+              await swipe(itemPriceX[0], itemPriceY[0], itemPriceX[findItem.max ? 2 : 1], itemPriceY[1]);
+            }
             await sleep();
             await click(itemUpX, itemUpY);
             await sleep();
