@@ -1046,7 +1046,7 @@ const initItems = async () => {
     }
     if (action === 'nostore') {
       noswipItems.push(await genItem('tuzi5'));
-      noswipItems.push(await genItem('qishou5'));
+      noswipItems.push(await genItem('xing5'));
     }
   }
 
