@@ -1034,7 +1034,8 @@ const initItems = async () => {
       // sellItems.push(await genItem('fengzheng1'));
       storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
-      storeItems.push({ name: 'xing5', pass: true });
+      // storeItems.push({ name: 'xing5', pass: true });
+      storeItems.push({ name: 'xing5' });
       noswipItems.push(await genItem('tuzi5'));
       noswipItems.push(await genItem('xing5'));
       // noswipItems.push(await genItem('xiari5'));
@@ -1042,7 +1043,8 @@ const initItems = async () => {
     if (action === 'onlystore') {
       storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
-      storeItems.push({ name: 'xing5', pass: true });
+      // storeItems.push({ name: 'xing5', pass: true });
+      storeItems.push({ name: 'xing5' });
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
