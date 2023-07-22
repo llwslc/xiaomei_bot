@@ -832,12 +832,14 @@ const luckyAction = async () => {
     const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
     const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
 
-    const same = await exactSameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+    const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
     if (same) {
       logger.info(info);
       await click(closeX, closeY);
       await sleep();
+    } else {
+      logger.info('not', info);
     }
 
     return same;
@@ -1770,6 +1772,9 @@ switch (action) {
     break;
   case 'debug3':
     debugCheck3();
+    break;
+  case 'lucky':
+    luckyAction();
     break;
   case 'debugStore':
     debugStore();
