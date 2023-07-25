@@ -343,7 +343,6 @@ const isDemon = async () => {
   return same;
 };
 
-// todo
 const isFriend = async () => {
   logger.info('checking friend');
 
@@ -855,7 +854,7 @@ const restartGame = async () => {
 
   if (same) {
     logger.info('restartGame');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -1593,6 +1592,8 @@ const main = async () => {
     await kill();
     await sleep();
     await restartGame();
+    await sleep(10 * 1000);
+    await restartGame();
     await sleep(60 * 1000);
   }
 
@@ -1660,6 +1661,13 @@ switch (action) {
     break;
   case 'debugStore':
     debugStore();
+    break;
+  case 'test':
+    kill().then(async () => {
+      await restartGame();
+      await sleep(10000);
+      await restartGame();
+    });
     break;
   default:
     main();
