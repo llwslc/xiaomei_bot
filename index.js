@@ -941,18 +941,25 @@ const initItems = async () => {
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
+      storeItems.push({ name: 'shu5', max: true });
+      storeItems.push({ name: 'fengzheng5' });
       noswipItems.push(await genItem('tuzi5'));
-      // noswipItems.push(await genItem('xiari5'));
+      noswipItems.push(await genItem('shu5'));
+      noswipItems.push(await genItem('fengzheng5'));
     }
     if (action === 'onlystore') {
       storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
+      storeItems.push({ name: 'shu5', max: true });
+      storeItems.push({ name: 'fengzheng5' });
       ONLY_STORE = true;
     }
     if (action === 'nostore') {
       noswipItems.push(await genItem('tuzi5'));
+      noswipItems.push(await genItem('shu5'));
+      noswipItems.push(await genItem('fengzheng5'));
     }
   }
 
