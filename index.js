@@ -144,31 +144,6 @@ const getImgClickPos = (xi, yi) => {
   };
 };
 
-const isLucky = async () => {
-  logger.info('checking lucky');
-
-  const x = 355;
-  const y = 670;
-  const width = 400;
-  const height = 400;
-
-  const clickX = 400;
-  const clickY = 1500;
-
-  const distImg = './imgLuck.png';
-
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
-
-  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
-
-  if (same) {
-    logger.info('isLucky');
-    click(clickX, clickY);
-  }
-  return same;
-};
-
 const isGoods = async () => {
   logger.info('checking goods');
 
@@ -194,6 +169,7 @@ const isGoods = async () => {
   return same;
 };
 
+// todo
 const isAuction = async () => {
   logger.info('checking auction');
 
@@ -219,6 +195,7 @@ const isAuction = async () => {
   return same;
 };
 
+// todo
 const isEmpty = async () => {
   logger.info('checking empty');
 
@@ -299,6 +276,7 @@ const isUpgrade = async () => {
   return same;
 };
 
+// todo
 const isLevelup = async () => {
   logger.info('checking levelup');
 
@@ -349,6 +327,7 @@ const isAdvertise = async () => {
   return same;
 };
 
+// todo
 const isAd1 = async () => {
   logger.info('checking ad1');
 
@@ -374,31 +353,7 @@ const isAd1 = async () => {
   return same;
 };
 
-const isError = async () => {
-  logger.info('checking error');
-
-  const x = 250;
-  const y = 1020;
-  const width = 600;
-  const height = 340;
-
-  const clickX = 535;
-  const clickY = 1290;
-
-  const distImg = './imgError.png';
-
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
-
-  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
-
-  if (same) {
-    logger.info('isError');
-    click(clickX, clickY);
-  }
-  return same;
-};
-
+// todo
 const isDemon = async () => {
   logger.info('checking demon');
 
@@ -424,6 +379,7 @@ const isDemon = async () => {
   return same;
 };
 
+// todo
 const isFriend = async () => {
   logger.info('checking friend');
 
@@ -449,6 +405,7 @@ const isFriend = async () => {
   return same;
 };
 
+// todo
 const isAchievement = async () => {
   logger.info('checking achievement');
 
@@ -494,27 +451,6 @@ const isGame = async () => {
   } else {
     logger.error('notInGame');
     sharp(imgName).toFile(`./debug/notInGame-${Date.now()}.png`);
-  }
-  return same;
-};
-
-const isZero = async () => {
-  logger.info('checking zero');
-
-  const x = 520;
-  const y = 245;
-  const width = 50;
-  const height = 30;
-
-  const distImg = './imgZero.png';
-
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
-
-  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
-
-  if (same) {
-    logger.info('isZero');
   }
   return same;
 };
@@ -797,6 +733,7 @@ const orderRightAction = async () => {
   await click(clickX, clickY);
 };
 
+// todo
 const luckyAdAction = async () => {
   const x = 410;
   const y = 1465;
@@ -1352,6 +1289,7 @@ const debugStore = async () => {
 let factoryFlag = true;
 let reInit = false;
 
+// todo
 const teamAd = async () => {
   logger.info('team ad');
 
@@ -1573,17 +1511,6 @@ const main = async () => {
     await sleep();
   }
 
-  if (!refresh && (await isError())) {
-    setTimeout(() => {
-      main();
-    }, 10 * 60 * 1000);
-  }
-
-  if (!refresh && (await isLucky())) {
-    refresh = true;
-    await sleep();
-  }
-
   if (!refresh && (await isGoods())) {
     refresh = true;
     await sleep();
@@ -1659,7 +1586,7 @@ const main = async () => {
 
     await sleep(5000);
 
-    if (factoryFlag && !(await isZero())) {
+    if (factoryFlag) {
       for (let i = 0; i < 10; i++) {
         await doubleClick(factoryX, factoryY);
       }
@@ -1750,7 +1677,12 @@ switch (action) {
     downItem();
     break;
   case 'cap':
-    capture();
+    capture().then(() => {
+      const img = process.argv[3];
+      if (img) {
+        sharp(imgName).toFile(`./${img}.png`);
+      }
+    });
     break;
   case 'tool':
     genTools(2, 9);
