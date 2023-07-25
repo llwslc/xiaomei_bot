@@ -302,31 +302,6 @@ const isLevelup = async () => {
   return same;
 };
 
-const isAdvertise = async () => {
-  logger.info('checking advertise');
-
-  const x = 420;
-  const y = 1540;
-  const width = 250;
-  const height = 80;
-
-  const clickX = 550;
-  const clickY = 1850;
-
-  const distImg = './imgAdvertise.png';
-
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
-
-  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
-
-  if (same) {
-    logger.info('isAdvertise');
-    click(clickX, clickY);
-  }
-  return same;
-};
-
 // todo
 const isAd1 = async () => {
   logger.info('checking ad1');
@@ -1487,13 +1462,6 @@ const main = async () => {
 
   await capture();
   await sleep();
-
-  if (await isAdvertise()) {
-    setTimeout(() => {
-      main();
-    }, 3 * 1000);
-    return;
-  }
 
   if (await isEmpty()) {
     factoryFlag = false;
