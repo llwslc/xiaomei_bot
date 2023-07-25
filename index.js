@@ -366,7 +366,6 @@ const isFriend = async () => {
   return same;
 };
 
-// todo
 const isAchievement = async () => {
   logger.info('checking achievement');
 
@@ -1504,11 +1503,6 @@ const main = async () => {
     await capture();
     await sleep();
     await isUpgrade();
-    await sleep();
-  }
-
-  if (!refresh && (await isAchievement())) {
-    refresh = true;
     await sleep();
   }
 
