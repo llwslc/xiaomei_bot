@@ -694,7 +694,6 @@ const orderRightAction = async () => {
   await click(clickX, clickY);
 };
 
-// todo
 const luckyAdAction = async () => {
   const x = 410;
   const y = 1465;
