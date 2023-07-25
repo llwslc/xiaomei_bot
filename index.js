@@ -98,6 +98,20 @@ const devices = async () => {
   return dev.split(`\n`).length > 3;
 };
 
+const apps = async () => {
+  const method = 'apps';
+  const shell = `${adbPath} shell dumpsys activity top`;
+  const all = await execAsync(method, shell);
+  const pks = all.split(`\n`).filter(_ => _.includes('Package:'));
+  console.log(pks);
+};
+
+const kill = async () => {
+  const method = 'kill';
+  const shell = `${adbPath} shell am force-stop com.taobao.taobao`;
+  await execAsync(method, shell);
+};
+
 const capture = async () => {
   let method = 'capture';
   let shell = `${adbPath} shell screencap -p /sdcard/${imgName}`;
@@ -142,31 +156,6 @@ const getImgClickPos = (xi, yi) => {
     x: iconX + iconWidth * (xi - 1) + iconWidth / 2,
     y: iconY + iconHeight * (yi - 1) + iconHeight / 2
   };
-};
-
-const isGoods = async () => {
-  logger.info('checking goods');
-
-  const x = 430;
-  const y = 1450;
-  const width = 200;
-  const height = 70;
-
-  const clickX = 540;
-  const clickY = 1790;
-
-  const distImg = './imgGoods.png';
-
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
-
-  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
-
-  if (same) {
-    logger.info('isGoods');
-    click(clickX, clickY);
-  }
-  return same;
 };
 
 // todo
@@ -1479,11 +1468,6 @@ const main = async () => {
     await sleep();
   }
 
-  if (!refresh && (await isGoods())) {
-    refresh = true;
-    await sleep();
-  }
-
   if (!refresh && (await isAuction())) {
     refresh = true;
     await sleep();
@@ -1606,7 +1590,7 @@ const main = async () => {
       await compare();
     }
   } else {
-    await home();
+    await kill();
     await sleep();
     await restartGame();
     await sleep(60 * 1000);
@@ -1635,7 +1619,7 @@ switch (action) {
   case 'shuijiao':
   case 'onlystore':
   case 'nostore':
-    logger.info(`aciotn ${action}`);
+    logger.info(`action ${action}`);
     main();
     break;
   case 'team':
