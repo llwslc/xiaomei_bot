@@ -763,6 +763,12 @@ const upgradeAction = async () => {
   await click(clickX, clickY);
 };
 
+const levelupAction = async () => {
+  const clickX = 1005;
+  const clickY = 1660;
+  await click(clickX, clickY);
+};
+
 const sellAction = async (xi, yi) => {
   const x = 750;
   const y = 2020;
@@ -1061,6 +1067,7 @@ const compare = async () => {
     await sleep(100);
     await upgradeAction();
     await sleep(100);
+    await levelupAction();
   }
 
   logger.info('compare end');
