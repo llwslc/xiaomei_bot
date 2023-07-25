@@ -184,7 +184,6 @@ const isAuction = async () => {
   return same;
 };
 
-// todo
 const isEmpty = async () => {
   logger.info('checking empty');
 
