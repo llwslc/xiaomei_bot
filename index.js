@@ -265,7 +265,6 @@ const isUpgrade = async () => {
   return same;
 };
 
-// todo
 const isLevelup = async () => {
   logger.info('checking levelup');
 
