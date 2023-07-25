@@ -251,6 +251,31 @@ const isEnergyAd = async () => {
   return same;
 };
 
+const isUpgrade = async () => {
+  logger.info('checking upgrade');
+
+  const x = 430;
+  const y = 1400;
+  const width = 200;
+  const height = 90;
+
+  const clickX = 540;
+  const clickY = 1450;
+
+  const distImg = './imgUpgrade.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isUpgrade');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
 // todo
 const isLevelup = async () => {
   logger.info('checking levelup');
@@ -1460,6 +1485,11 @@ const main = async () => {
   }
 
   if (!refresh && (await isAuction())) {
+    refresh = true;
+    await sleep();
+  }
+
+  if (!refresh && (await isUpgrade())) {
     refresh = true;
     await sleep();
   }
