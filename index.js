@@ -841,8 +841,8 @@ const restartGame = async () => {
   const width = 180;
   const height = 180;
 
-  const clickX = 670;
-  const clickY = 1650;
+  const clickX = 430;
+  const clickY = 1080;
 
   await capture();
   await sleep(500);
@@ -1597,8 +1597,6 @@ const main = async () => {
     await kill();
     await sleep();
     await restartGame();
-    await sleep(10 * 1000);
-    await restartGame();
     await sleep(60 * 1000);
   }
 
@@ -1669,8 +1667,6 @@ switch (action) {
     break;
   case 'test':
     kill().then(async () => {
-      await restartGame();
-      await sleep(10000);
       await restartGame();
     });
     break;
