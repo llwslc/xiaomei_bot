@@ -1633,8 +1633,8 @@ const main = async () => {
   }
 
   const speed = process.argv[3] ? Number(process.argv[3]) : 10;
-  setTimeout(() => {
-    sharp(imgName).toFile(`./imgCrash.png`);
+  setTimeout(async () => {
+    await sharp(imgName).toFile(`./imgCrash.png`);
     main();
   }, speed * 1000);
 };
