@@ -158,7 +158,6 @@ const getImgClickPos = (xi, yi) => {
   };
 };
 
-// todo
 const isAuction = async () => {
   logger.info('checking auction');
 
@@ -289,7 +288,6 @@ const isLevelup = async () => {
   return same;
 };
 
-// todo
 const isAd1 = async () => {
   logger.info('checking ad1');
 
@@ -1262,7 +1260,6 @@ const debugStore = async () => {
 let factoryFlag = true;
 let reInit = false;
 
-// todo
 const teamAd = async () => {
   logger.info('team ad');
 
