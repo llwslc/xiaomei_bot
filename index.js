@@ -183,6 +183,30 @@ const isAuction = async () => {
   return same;
 };
 
+const isCrash = async () => {
+  logger.info('checking crash');
+
+  const x = 500;
+  const y = 500;
+  const width = 500;
+  const height = 500;
+
+  const distImg = './imgCrash.png';
+
+  const distExists = existsSync(distImg);
+  if (!distExists) return false;
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isCrash');
+  }
+  return same;
+};
+
 const isEmpty = async () => {
   logger.info('checking empty');
 
@@ -1257,9 +1281,6 @@ const debugStore = async () => {
   console.log(await sameAsync('./store/items/temp/1-1.png', './store/items/temp/2-1.png'));
 };
 
-let factoryFlag = true;
-let reInit = false;
-
 const teamAd = async () => {
   logger.info('team ad');
 
@@ -1438,6 +1459,16 @@ const teamAd = async () => {
   }, 1000);
 };
 
+const restart = async () => {
+  await kill();
+  await sleep();
+  await restartGame();
+  await sleep(60 * 1000);
+};
+
+let factoryFlag = true;
+let reInit = false;
+
 const main = async () => {
   const linked = await devices();
   if (!linked) {
@@ -1457,6 +1488,13 @@ const main = async () => {
 
   await capture();
   await sleep();
+
+  if (await isCrash()) {
+    await restart();
+    main();
+
+    return;
+  }
 
   if (await isEmpty()) {
     factoryFlag = false;
@@ -1591,14 +1629,12 @@ const main = async () => {
       await compare();
     }
   } else {
-    await kill();
-    await sleep();
-    await restartGame();
-    await sleep(60 * 1000);
+    await restart();
   }
 
   const speed = process.argv[3] ? Number(process.argv[3]) : 10;
   setTimeout(() => {
+    sharp(imgName).toFile(`./imgCrash.png`);
     main();
   }, speed * 1000);
 };
