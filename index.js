@@ -187,7 +187,7 @@ const isCrash = async () => {
   logger.info('checking crash');
 
   const x = 50;
-  const y = 1100;
+  const y = 800;
   const width = 800;
   const height = 800;
 
