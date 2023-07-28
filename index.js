@@ -82,13 +82,13 @@ const sameAsync = async (img1, img2, debug = false) => {
   return dist < 0.15 && diff.percent < 0.1;
 };
 
-const exactSameAsync = async (img1, img2, debug = false) => {
+const sameOneAsync = async (img1, img2, debug = false) => {
   const jImg1 = await Jimp.read(img1);
   const jImg2 = await Jimp.read(img2);
   const diff = Jimp.diff(jImg1, jImg2, 0);
 
   debug && console.log(dist, diff.percent);
-  return diff.percent < 0.1;
+  return diff.percent === 0;
 };
 
 const devices = async () => {
@@ -199,7 +199,7 @@ const isCrash = async () => {
   const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
   const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
 
-  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+  const same = await sameOneAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
   if (same) {
     logger.info('isCrash');
