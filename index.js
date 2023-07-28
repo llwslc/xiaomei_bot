@@ -82,6 +82,15 @@ const sameAsync = async (img1, img2, debug = false) => {
   return dist < 0.15 && diff.percent < 0.1;
 };
 
+const exactSameAsync = async (img1, img2, debug = false) => {
+  const jImg1 = await Jimp.read(img1);
+  const jImg2 = await Jimp.read(img2);
+  const diff = Jimp.diff(jImg1, jImg2, 0);
+
+  debug && console.log(dist, diff.percent);
+  return diff.percent < 0.1;
+};
+
 const sameOneAsync = async (img1, img2, debug = false) => {
   const jImg1 = await Jimp.read(img1);
   const jImg2 = await Jimp.read(img2);
