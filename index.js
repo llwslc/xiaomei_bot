@@ -186,10 +186,10 @@ const isAuction = async () => {
 const isCrash = async () => {
   logger.info('checking crash');
 
-  const x = 100;
-  const y = 800;
+  const x = 50;
+  const y = 1100;
   const width = 800;
-  const height = 400;
+  const height = 800;
 
   const distImg = './imgCrash.png';
 
