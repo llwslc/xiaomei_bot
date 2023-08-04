@@ -873,8 +873,8 @@ const restartGame = async () => {
   const width = 180;
   const height = 180;
 
-  const clickX = 430;
-  const clickY = 1080;
+  const clickX = 670;
+  const clickY = 1650;
 
   await capture();
   await sleep(500);
