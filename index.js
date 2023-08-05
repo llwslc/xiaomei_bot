@@ -200,20 +200,24 @@ const isCrash = async () => {
   const width = 800;
   const height = 800;
 
-  const distImg = './imgCrash.png';
+  try {
+    const distImg = './imgCrash.png';
 
-  const distExists = existsSync(distImg);
-  if (!distExists) return false;
+    const distExists = existsSync(distImg);
+    if (!distExists) return false;
 
-  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
-  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+    const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
 
-  const same = await sameOneAsync({ width, height, data: img1 }, { width, height, data: img2 });
+    const same = await sameOneAsync({ width, height, data: img1 }, { width, height, data: img2 });
 
-  if (same) {
-    logger.info('isCrash');
-  }
-  return same;
+    if (same) {
+      logger.info('isCrash');
+    }
+    return same;
+  } catch {}
+
+  return false;
 };
 
 const isEmpty = async () => {
