@@ -638,7 +638,7 @@ const upStore = async () => {
 
       await sleep();
       await click(x, y);
-      logger.info('upStore', x, y);
+      logger.info('upStore', i, j);
       await sleep();
       await capture();
 
