@@ -1488,6 +1488,12 @@ const main = async () => {
     return;
   }
 
+  await click(380, 1850);
+  await click(550, 1950);
+  await sleep();
+  await click(380, 1680);
+  await click(530, 1800);
+
   const factoryX = FACTORY_X;
   const factoryY = FACTORY_Y;
   let refresh = false;
