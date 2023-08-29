@@ -893,8 +893,11 @@ const restartGame = async () => {
   if (same) {
     logger.info('restartGame');
     await click(clickX, clickY);
+  } else {
+    await home();
+    await sleep();
+    await click(clickX, clickY);
   }
-  return same;
 };
 
 const initItems = async () => {
