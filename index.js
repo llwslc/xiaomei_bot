@@ -432,7 +432,7 @@ const isGame = async () => {
   const x = 20;
   const y = 80;
   const width = 950;
-  const height = 125;
+  const height = 80;
 
   const distImg = './imgGame.png';
 
