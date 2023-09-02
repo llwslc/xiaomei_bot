@@ -872,10 +872,10 @@ const doubleClick = async (xi, yi) => {
 };
 
 const restartGame = async () => {
-  const x = 550;
+  const x = 700;
   const y = 1500;
-  const width = 180;
-  const height = 180;
+  const width = 300;
+  const height = 300;
 
   const clickX = 430;
   const clickY = 1080;
@@ -896,7 +896,9 @@ const restartGame = async () => {
   } else {
     await home();
     await sleep();
-    await click(clickX, clickY);
+    await capture();
+    await sleep();
+    await restartGame();
   }
 };
 
