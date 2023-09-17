@@ -121,6 +121,27 @@ const kill = async () => {
   await execAsync(method, shell);
 };
 
+const protectBattery = async () => {
+  const method = 'battery';
+  const shell = `${adbPath} shell dumpsys battery`;
+  const battery = await execAsync(method, shell);
+  const level = battery
+    .split(`\n`)
+    .filter(_ => _.includes('level:'))[0]
+    .split(': ')[1];
+  if (Number(level) > 80) {
+    const method = 'battery stop';
+    const shell = `${adbPath} shell dumpsys battery set usb 0`;
+    await execAsync(method, shell);
+  }
+
+  if (Number(level) < 20) {
+    const method = 'battery start';
+    const shell = `${adbPath} shell dumpsys battery set usb 1`;
+    await execAsync(method, shell);
+  }
+};
+
 const capture = async () => {
   let method = 'capture';
   let shell = `${adbPath} shell screencap -p /sdcard/${imgName}`;
@@ -1492,6 +1513,8 @@ const main = async () => {
     }, 60 * 1000);
     return;
   }
+
+  await protectBattery();
 
   await click(380, 1850);
   await click(550, 1950);
