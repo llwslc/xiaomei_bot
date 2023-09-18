@@ -213,6 +213,31 @@ const isAuction = async () => {
   return same;
 };
 
+const isPark = async () => {
+  logger.info('checking park');
+
+  const x = 30;
+  const y = 1880;
+  const width = 200;
+  const height = 200;
+
+  const clickX = 120;
+  const clickY = 1980;
+
+  const distImg = './imgPark.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isPark');
+    click(clickX, clickY);
+  }
+  return same;
+};
+
 const isCrash = async () => {
   logger.info('checking crash');
 
@@ -1511,6 +1536,13 @@ const main = async () => {
     setTimeout(() => {
       main();
     }, 60 * 1000);
+    return;
+  }
+
+  if (await isPark()) {
+    setTimeout(() => {
+      main();
+    }, 10 * 1000);
     return;
   }
 
