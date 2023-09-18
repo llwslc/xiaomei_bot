@@ -475,10 +475,10 @@ const isAchievement = async () => {
 const isGame = async () => {
   logger.info('checking game');
 
-  const x = 20;
+  const x = 520;
   const y = 80;
-  const width = 950;
-  const height = 80;
+  const width = 300;
+  const height = 120;
 
   const distImg = './imgGame.png';
 
@@ -1553,7 +1553,7 @@ const main = async () => {
   if (await isPark()) {
     setTimeout(() => {
       main();
-    }, 30 * 1000);
+    }, 60 * 1000);
     return;
   }
 
