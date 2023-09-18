@@ -1539,20 +1539,7 @@ const main = async () => {
     return;
   }
 
-  if (await isPark()) {
-    setTimeout(() => {
-      main();
-    }, 10 * 1000);
-    return;
-  }
-
   await protectBattery();
-
-  await click(380, 1850);
-  await click(550, 1950);
-  await sleep();
-  await click(380, 1680);
-  await click(530, 1800);
 
   const factoryX = FACTORY_X;
   const factoryY = FACTORY_Y;
@@ -1562,6 +1549,19 @@ const main = async () => {
 
   await capture();
   await sleep();
+
+  if (await isPark()) {
+    setTimeout(() => {
+      main();
+    }, 30 * 1000);
+    return;
+  }
+
+  await click(380, 1850);
+  await click(550, 1950);
+  await sleep();
+  await click(380, 1680);
+  await click(530, 1800);
 
   if (await isCrash()) {
     await restart();
