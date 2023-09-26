@@ -669,7 +669,7 @@ const upStore = async () => {
   if (!storeItems.length) return;
 
   await openStore();
-  await sleep();
+  await sleep(3000);
   await capture();
   if (!(await isStore())) {
     return;
