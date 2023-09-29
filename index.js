@@ -216,13 +216,13 @@ const isAuction = async () => {
 const isPark = async () => {
   logger.info('checking park');
 
-  const x = 30;
-  const y = 1880;
-  const width = 200;
-  const height = 200;
+  const x = 855;
+  const y = 1905;
+  const width = 150;
+  const height = 150;
 
-  const clickX = 120;
-  const clickY = 1980;
+  const clickX = 920;
+  const clickY = 1990;
 
   const distImg = './imgPark.png';
 
@@ -1023,7 +1023,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1031,7 +1031,7 @@ const initItems = async () => {
       noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
