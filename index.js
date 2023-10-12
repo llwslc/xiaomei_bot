@@ -37,7 +37,7 @@ let doubleClickItems = [];
 let storeItems = [];
 const demon1 = { x: 1, y: 1, xLen: 2 };
 const demon2 = { x: 1, y: 2, xLen: iconLenX - 4 };
-const demon3 = { x: 1, y: 3, xLen: iconLenX - 3 };
+const demon3 = { x: 1, y: 3, xLen: iconLenX - 2 };
 
 const COMPARE_X = 1;
 const COMPARE_Y = 5;
@@ -1023,7 +1023,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push({ name: 'tuzi5', pass: true });
+      storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1031,7 +1031,7 @@ const initItems = async () => {
       noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push({ name: 'tuzi5', pass: true });
+      storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
