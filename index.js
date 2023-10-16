@@ -587,7 +587,7 @@ const upStoreItem = async () => {
   const itemSpaceY = 280;
   const itemXLen = 4;
   const itemYLen = 3;
-  const width = 100;
+  const width = 70;
   const height = 120;
 
   for (let i = 0; i < itemXLen; i++) {
@@ -1023,7 +1023,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1312,7 +1312,7 @@ const debugStore = async () => {
   const itemStartY = 575;
   const itemSpaceX = 197;
   const itemSpaceY = 280;
-  const itemWidth = 100;
+  const itemWidth = 70;
   const itemHeight = 120;
   const itemXLen = 4;
   const itemYLen = 3;
