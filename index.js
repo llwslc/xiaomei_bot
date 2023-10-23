@@ -1031,7 +1031,7 @@ const initItems = async () => {
       noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1520,7 +1520,7 @@ const teamAd = async () => {
 
 const restart = async () => {
   await kill();
-  await sleep();
+  await sleep(5 * 60 * 1000);
   await restartGame();
   await sleep(60 * 1000);
 };
