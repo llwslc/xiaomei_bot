@@ -963,7 +963,14 @@ const initItems = async () => {
   if (!noswipItems.length) {
     // noswipItems = [await genItem('empty'), await genItem('libao1'), await genItem('baoxiang'), await genItem('jiandao')];
     noswipItems = [await genItem('empty')];
-    sellItems = [await genItem('jiasu1'), await genItem('jiasu2'), await genItem('jiasu3'), await genItem('jialiang1'), await genItem('jialiang2')];
+    sellItems = [
+      await genItem('jiasu1'),
+      await genItem('jiasu2'),
+      await genItem('jiasu3'),
+      await genItem('jiasu4'),
+      await genItem('jialiang1'),
+      await genItem('jialiang2')
+    ];
     doubleClickItems = [
       await genItem('jinbi2'),
       await genItem('jinbi3'),
@@ -1824,6 +1831,7 @@ node . tool empty
 node . tool jiasu1
 node . tool jiasu2
 node . tool jiasu3
+node . tool jiasu4
 node . tool jialiang1
 node . tool jialiang2
 node . tool jinbi2
@@ -1867,7 +1875,6 @@ node . cap imgTeam3
 node . cap imgTeam4
 node . cap imgTeam5
 
-node . tool jiasu3
 
  *
  */
