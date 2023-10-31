@@ -396,7 +396,6 @@ const isAd1 = async () => {
   return same;
 };
 
-// todo
 const isDemon = async () => {
   logger.info('checking demon');
 
@@ -963,7 +962,7 @@ const initItems = async () => {
 
   if (!noswipItems.length) {
     // noswipItems = [await genItem('empty'), await genItem('libao1'), await genItem('baoxiang'), await genItem('jiandao')];
-    noswipItems = [await genItem('empty'), await genItem('jiandao')];
+    noswipItems = [await genItem('empty')];
     sellItems = [await genItem('jiasu1'), await genItem('jiasu2'), await genItem('jiasu3'), await genItem('jialiang1'), await genItem('jialiang2')];
     doubleClickItems = [
       await genItem('jinbi2'),
@@ -1023,7 +1022,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1031,7 +1030,7 @@ const initItems = async () => {
       noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1789,5 +1788,86 @@ node . tool jiucai3
 node . store jiucai3 0
 
 debugCompare();
+ *
+ */
+
+/**
+ * list
+ *
+
+node . cap imgAchievement
+node . cap imgAd1
+node . cap imgAuction
+node . cap imgDemon
+node . cap imgEmpty
+node . cap imgFriend
+node . cap imgGame
+node . cap imgHome
+node . cap imgLevelup
+node . cap imgPark
+node . cap imgSell1
+node . cap imgSell2
+node . cap imgSell4
+node . cap imgSellEnd
+node . cap imgUpgrade
+node . cap lv-ad1
+node . cap lv2-3
+node . cap lv3-4
+
+node . cap imgTeam1
+node . cap imgTeam2
+node . cap imgTeam3
+node . cap imgTeam4
+node . cap imgTeam5
+
+node . tool empty
+node . tool jiasu1
+node . tool jiasu2
+node . tool jiasu3
+node . tool jialiang1
+node . tool jialiang2
+node . tool jinbi2
+node . tool jinbi3
+node . tool jinbi5
+node . tool jinbi6
+node . tool tili1
+node . tool tili2
+node . tool tili3
+node . tool tili4
+node . tool tili5
+node . tool tili6
+
+node . tool tuzi5
+node . tool xiari5
+
+node . cap store/imgDown
+node . cap store/imgStore
+node . cap store/imgTip
+node . cap store/imgUp
+
+node . store tuzi5 0
+node . store tuzi5 1
+node . store xiari5 0
+node . store xiari5 1
+
+ *
+ */
+
+// todo
+/**
+ * list
+ *
+
+node . cap imgAd1
+node . cap imgDemon
+
+node . cap imgTeam1
+node . cap imgTeam2
+node . cap imgTeam3
+node . cap imgTeam4
+node . cap imgTeam5
+
+node . tool jiasu3
+
  *
  */
