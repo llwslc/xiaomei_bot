@@ -1556,6 +1556,13 @@ const main = async () => {
   await capture();
   await sleep();
 
+  if (await isCrash()) {
+    await restart();
+    main();
+
+    return;
+  }
+
   if (await isPark()) {
     setTimeout(() => {
       main();
@@ -1568,13 +1575,6 @@ const main = async () => {
   await sleep();
   await click(380, 1680);
   await click(530, 1800);
-
-  if (await isCrash()) {
-    await restart();
-    main();
-
-    return;
-  }
 
   if (await isEmpty()) {
     factoryFlag = false;
@@ -1869,12 +1869,7 @@ node . store xiari5 1
 node . cap imgAd1
 node . cap imgDemon
 
-node . cap imgTeam1
-node . cap imgTeam2
 node . cap imgTeam3
-node . cap imgTeam4
-node . cap imgTeam5
-
 
  *
  */
