@@ -87,7 +87,7 @@ const exactSameAsync = async (img1, img2, debug = false) => {
   const jImg2 = await Jimp.read(img2);
   const diff = Jimp.diff(jImg1, jImg2, 0);
 
-  debug && console.log(dist, diff.percent);
+  debug && console.log(diff.percent);
   return diff.percent < 0.1;
 };
 
@@ -96,7 +96,7 @@ const sameOneAsync = async (img1, img2, debug = false) => {
   const jImg2 = await Jimp.read(img2);
   const diff = Jimp.diff(jImg1, jImg2, 0);
 
-  debug && console.log(dist, diff.percent);
+  debug && console.log(diff.percent);
   return diff.percent === 0;
 };
 
@@ -208,7 +208,7 @@ const isAuction = async () => {
 
   if (same) {
     logger.info('isAuction');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -233,7 +233,7 @@ const isPark = async () => {
 
   if (same) {
     logger.info('isPark');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -286,7 +286,7 @@ const isEmpty = async () => {
 
   if (same) {
     logger.info('isEmpty');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -314,9 +314,9 @@ const isEnergyAd = async () => {
 
   if (same) {
     logger.info('isEnergyAd');
-    click(clickX1, clickY1);
+    await click(clickX1, clickY1);
     await sleep();
-    click(clickX2, clickY2);
+    await click(clickX2, clickY2);
   }
   return same;
 };
@@ -341,7 +341,7 @@ const isUpgrade = async () => {
 
   if (same) {
     logger.info('isUpgrade');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -366,7 +366,7 @@ const isLevelup = async () => {
 
   if (same) {
     logger.info('isLevelup');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -391,7 +391,7 @@ const isAd1 = async () => {
 
   if (same) {
     logger.info('isAd1');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -416,7 +416,7 @@ const isDemon = async () => {
 
   if (same) {
     logger.info('isDemon');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -441,7 +441,7 @@ const isFriend = async () => {
 
   if (same) {
     logger.info('isFriend');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -466,7 +466,7 @@ const isAchievement = async () => {
 
   if (same) {
     logger.info('isAchievement');
-    click(clickX, clickY);
+    await click(clickX, clickY);
   }
   return same;
 };
@@ -474,10 +474,10 @@ const isAchievement = async () => {
 const isGame = async () => {
   logger.info('checking game');
 
-  const x = 520;
-  const y = 80;
-  const width = 300;
-  const height = 120;
+  const x = 880;
+  const y = 1960;
+  const width = 150;
+  const height = 150;
 
   const distImg = './imgGame.png';
 
@@ -1533,6 +1533,7 @@ const restart = async () => {
 
 let factoryFlag = true;
 let reInit = false;
+let parkFlag = false;
 
 const main = async () => {
   const linked = await devices();
@@ -1556,17 +1557,26 @@ const main = async () => {
   await capture();
   await sleep();
 
+  if (await isPark()) {
+    if (parkFlag) {
+      parkFlag = false;
+
+      await restart();
+      main();
+    } else {
+      parkFlag = true;
+
+      setTimeout(async () => {
+        main();
+      }, 60 * 1000);
+    }
+    return;
+  }
+
   if (await isCrash()) {
     await restart();
     main();
 
-    return;
-  }
-
-  if (await isPark()) {
-    setTimeout(() => {
-      main();
-    }, 60 * 1000);
     return;
   }
 
