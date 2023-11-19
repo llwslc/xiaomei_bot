@@ -947,19 +947,19 @@ const restartGame = async () => {
   }
 };
 
-const initItems = async () => {
+const genItem = async name => {
   const width = iconWidth;
   const height = iconHeight;
 
-  const genItem = async name => {
-    const img = { width, height, name, data: await sharp(`./tools/${name}.png`).raw().toBuffer() };
+  const img = { width, height, name, data: await sharp(`./tools/${name}.png`).raw().toBuffer() };
 
-    const jImg = await Jimp.read(img);
-    const pHash = jImg.pHash();
+  const jImg = await Jimp.read(img);
+  const pHash = jImg.pHash();
 
-    return { ...img, pHash };
-  };
+  return { ...img, pHash };
+};
 
+const initItems = async () => {
   if (!noswipItems.length) {
     // noswipItems = [await genItem('empty'), await genItem('libao1'), await genItem('baoxiang'), await genItem('jiandao')];
     noswipItems = [await genItem('empty')];
@@ -1039,7 +1039,7 @@ const initItems = async () => {
     if (action === 'onlystore') {
       storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
-      // storeItems.push({ name: 'xing5', pass: true });
+      // storeItems.push({ name: 'xing5', 17 true });
       // storeItems.push({ name: 'xing5' });
       ONLY_STORE = true;
     }
