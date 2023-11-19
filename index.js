@@ -1029,7 +1029,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push({ name: 'tuzi5', pass: true });
+      storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1037,7 +1037,7 @@ const initItems = async () => {
       noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push({ name: 'tuzi5', pass: true });
+      storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1729,6 +1729,98 @@ const main = async () => {
   }, speed * 1000);
 };
 
+const food = async () => {
+  const factoryX = 7;
+  const factoryY = 9;
+
+  for (let i = 0; i < 5; i++) {
+    await doubleClick(factoryX, factoryY);
+  }
+
+  noswipItems = [await genItem('box')];
+
+  await sleep();
+  await capture();
+  await sleep();
+
+  const startIndexX = 2;
+  const startIndexY = 3;
+
+  const endIndexX = 6;
+  const endIndexY = 8;
+
+  const width = iconWidth;
+  const height = iconHeight;
+
+  const curItems = [];
+
+  const now = Date.now();
+
+  const compareImg = './imgCompare.png';
+  await sharp(imgName).toFile(compareImg);
+
+  for (let y = startIndexY; y <= endIndexY; y++) {
+    for (let x = startIndexX; x <= endIndexX; x++) {
+      const { x: left, y: top } = getImgPos(x, y);
+      const data = await sharp(compareImg).extract({ left, top, width, height }).raw().toBuffer();
+      const item = { x, y, width, height, data };
+      let isItem = true;
+      for (let i = 0; i < noswipItems.length; i++) {
+        const same = await sameAsync(item, noswipItems[i]);
+
+        if (same) {
+          isItem = false;
+        }
+      }
+
+      if (isItem) {
+        if (DEBUG_LV1) {
+          sharp(compareImg).extract({ left, top, width, height }).toFile(`./debug/${now}-${x}-${y}.png`);
+        }
+        curItems.push(item);
+      }
+    }
+  }
+
+  if (DEBUG_LV2) {
+    sharp(compareImg).toFile(`./debug/${now}.png`);
+  }
+
+  const swipeItems = [];
+
+  for (let i = 0; i < curItems.length - 1; i++) {
+    const item1 = curItems[i];
+    if (item1.used) continue;
+
+    for (let j = i + 1; j < curItems.length; j++) {
+      const item2 = curItems[j];
+      const same = await sameAsync(item1, item2);
+      if (same) {
+        item2.used = true;
+        swipeItems.push({ item1, item2 });
+        break;
+      }
+    }
+  }
+
+  for (let i = 0; i < swipeItems.length; i++) {
+    const { item1, item2 } = swipeItems[i];
+    const from = getImgClickPos(item1.x, item1.y);
+    const to = getImgClickPos(item2.x, item2.y);
+
+    logger.info(`same [${item1.x},${item1.y}] - [${item2.x},${item2.y}]`);
+    await swipe(from.x, from.y, to.x, to.y);
+    await sleep();
+  }
+
+  logger.info('compare end');
+
+  const speed = process.argv[3] ? Number(process.argv[3]) : 10;
+  setTimeout(async () => {
+    food();
+  }, speed * 1000);
+};
+
 const action = process.argv[2] ? process.argv[2] : '';
 switch (action) {
   case '':
@@ -1748,6 +1840,9 @@ switch (action) {
   case 'nostore':
     logger.info(`action ${action}`);
     main();
+    break;
+  case 'food':
+    food();
     break;
   case 'team':
     teamAd();
