@@ -1815,10 +1815,9 @@ const food = async () => {
 
   logger.info('compare end');
 
-  const speed = process.argv[3] ? Number(process.argv[3]) : 10;
   setTimeout(async () => {
     food();
-  }, speed * 1000);
+  }, 1000);
 };
 
 const action = process.argv[2] ? process.argv[2] : '';
@@ -1952,6 +1951,8 @@ node . tool tili6
 
 node . tool tuzi5
 node . tool xiari5
+
+node . tool box
 
 node . cap store/imgDown
 node . cap store/imgStore
