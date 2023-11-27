@@ -1029,7 +1029,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1037,7 +1037,7 @@ const initItems = async () => {
       noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push({ name: 'tuzi5', max: true });
+      storeItems.push({ name: 'tuzi5', pass: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', 17 true });
       // storeItems.push({ name: 'xing5' });
