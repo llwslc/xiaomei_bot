@@ -12,7 +12,7 @@ log4js.configure({
   appenders: { XIAOMEI: { type: 'stdout' }, ERROR: { type: 'file', filename: ERROR_LOG } },
   categories: { default: { appenders: ['XIAOMEI'], level: 'info' }, ERROR: { appenders: ['ERROR'], level: 'error' } }
 });
-const logger = log4js.getLogger('XIAOMEI');
+const logger = log4js.getLogger(`XIAOMEI - ${process.argv[2] ? process.argv[2].toUpperCase() : ''}`);
 const errlogger = log4js.getLogger('ERROR');
 const _error = logger.error;
 logger.error = function (...args) {
@@ -213,6 +213,32 @@ const isAuction = async () => {
   return same;
 };
 
+const isParkEvent = async () => {
+  logger.info('checking park event');
+
+  const x = 955;
+  const y = 435;
+  const width = 50;
+  const height = 50;
+
+  const clickX = 980;
+  const clickY = 460;
+
+  const distImg = './imgParkEvent.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isParkEvent');
+    await click(clickX, clickY);
+    await sleep();
+  }
+  return same;
+};
+
 const isPark = async () => {
   logger.info('checking park');
 
@@ -391,6 +417,31 @@ const isAd1 = async () => {
 
   if (same) {
     logger.info('isAd1');
+    await click(clickX, clickY);
+  }
+  return same;
+};
+
+const isEgg = async () => {
+  logger.info('checking egg');
+
+  const x = 505;
+  const y = 1660;
+  const width = 60;
+  const height = 60;
+
+  const clickX = 540;
+  const clickY = 1690;
+
+  const distImg = './imgEgg.png';
+
+  const img1 = await sharp(distImg).extract({ left: x, top: y, width, height }).raw().toBuffer();
+  const img2 = await sharp(imgName).extract({ left: x, top: y, width, height }).raw().toBuffer();
+
+  const same = await sameAsync({ width, height, data: img1 }, { width, height, data: img2 });
+
+  if (same) {
+    logger.info('isEgg');
     await click(clickX, clickY);
   }
   return same;
@@ -1029,7 +1080,7 @@ const initItems = async () => {
     }
     if (action === 'shuijiao') {
       // sellItems.push(await genItem('fengzheng1'));
-      storeItems.push({ name: 'tuzi5', pass: true });
+      storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', pass: true });
       // storeItems.push({ name: 'xing5' });
@@ -1037,7 +1088,7 @@ const initItems = async () => {
       noswipItems.push(await genItem('xiari5'));
     }
     if (action === 'onlystore') {
-      storeItems.push({ name: 'tuzi5', pass: true });
+      storeItems.push({ name: 'tuzi5', max: true });
       storeItems.push({ name: 'xiari5', max: true });
       // storeItems.push({ name: 'xing5', 17 true });
       // storeItems.push({ name: 'xing5' });
@@ -1557,6 +1608,10 @@ const main = async () => {
   await capture();
   await sleep();
 
+  await isParkEvent();
+  await capture();
+  await sleep();
+
   if (await isPark()) {
     if (parkFlag) {
       parkFlag = false;
@@ -1619,6 +1674,13 @@ const main = async () => {
 
   if (!refresh && (await isDemon())) {
     refresh = true;
+    await sleep();
+  }
+
+  if (!refresh && (await isEgg())) {
+    refresh = true;
+    await sleep();
+    await capture();
     await sleep();
   }
 
@@ -1916,6 +1978,7 @@ node . cap imgGame
 node . cap imgHome
 node . cap imgLevelup
 node . cap imgPark
+node . cap imgParkEvent
 node . cap imgSell1
 node . cap imgSell2
 node . cap imgSell4
