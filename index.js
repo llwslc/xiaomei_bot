@@ -1792,8 +1792,24 @@ const main = async () => {
 };
 
 const food = async () => {
-  const factoryX = 7;
-  const factoryY = 9;
+  await capture();
+  await sleep();
+  if (await isGame()) return;
+
+  const level = process.argv[3] ? process.argv[3] : '';
+
+  let factoryX = 7;
+  let factoryY = 9;
+
+  if (level === '3') {
+    factoryX = 1;
+    factoryY = 1;
+  }
+
+  if (level === '5') {
+    factoryX = 1;
+    factoryY = 9;
+  }
 
   for (let i = 0; i < 5; i++) {
     await doubleClick(factoryX, factoryY);
