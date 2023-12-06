@@ -1894,7 +1894,7 @@ const food = async () => {
   logger.info('compare end');
 
   setTimeout(async () => {
-    food();
+    await food();
   }, 1000);
 };
 
